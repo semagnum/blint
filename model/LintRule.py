@@ -1,6 +1,19 @@
 import bpy
 
-from ..operators.BT_OT_FixIssue import BT_OT_FixIssue
+
+class LintIssue(bpy.types.PropertyGroup):
+    description: bpy.props.StringProperty(name='Description', default='', options={'SKIP_SAVE'})
+    severity_icon: bpy.props.StringProperty(name='Severity', default='INFO', options={'SKIP_SAVE'})
+    category_icon: bpy.props.StringProperty(name='Category', default='GENERAL', options={'SKIP_SAVE'})
+    fix_expr: bpy.props.StringProperty(name='Fix', default='', options={'SKIP_SAVE'})
+
+    def draw(self, layout):
+        row = layout.row(align=True)
+        row.label(text='', icon=self.severity_icon)
+        row.label(text='', icon=self.category_icon)
+        row.label(text=self.description)
+        if self.fix_expr:
+            row.operator('scene_analyzer.fix_issue', text='', icon='FILE_TICK').fix = self.fix_expr
 
 
 class LintRule(bpy.types.PropertyGroup):
@@ -46,24 +59,25 @@ class LintRule(bpy.types.PropertyGroup):
             print('get_ui_identifier failed', e)
             return ''
 
-    def draw(self, layout):
+    def get_issues(self):
         if self.iterable_expr:
+            issues = []
             for idx, identifier in enumerate(self.get_iterative_list()):
-                name = getattr(identifier, self.prop_label_expr, '')
-                row = layout.row(align=True)
-                row.label(text='', icon=self.severity_icon)
-                row.label(text='', icon=self.category_icon)
-                row.label(text=name + ' ' + self.description)
-                if self.fix_expr:
-                    row.operator('scene_analyzer.fix_issue', text='', icon='FILE_TICK').fix = self.generate_fix(idx)
+                issue = {
+                    'description': getattr(identifier, self.prop_label_expr, '') + ' ' + self.description,
+                    'severity_icon': self.severity_icon,
+                    'category_icon': self.category_icon,
+                    'fix_expr': self.generate_fix(idx) if self.fix_expr else ''
+                }
+                issues.append(issue)
+            return issues
         elif self.does_issue_exist():
             issue_identifier = self.get_ui_identifier()
-            row = layout.row(align=True)
-            row.label(text='', icon=self.severity_icon)
-            row.label(text='', icon=self.category_icon)
-            if issue_identifier:
-                row.label(text=issue_identifier + ' ' + self.description)
-            else:
-                row.label(text=self.description)
-            if self.fix_expr:
-                row.operator(BT_OT_FixIssue.bl_idname, text='', icon='FILE_TICK').fix = self.fix_expr
+            issue = {
+                'description': (issue_identifier + ' ' + self.description) if issue_identifier else self.description,
+                'severity_icon': self.severity_icon,
+                'category_icon': self.category_icon,
+                'fix_expr': self.fix_expr
+            }
+            return [issue]
+        return []

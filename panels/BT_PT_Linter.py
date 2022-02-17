@@ -1,4 +1,6 @@
 import bpy
+
+from ..preferences import reload_issues
 from ..util import get_user_preferences
 
 
@@ -12,8 +14,7 @@ class BT_PT_Linter(bpy.types.Panel):
     def draw(self, context):
         layout = self.layout
 
-        # TODO use UI list
         prefs = get_user_preferences(context)
-        for lint in prefs.lint_rules.values():
-            lint.draw(layout)
-        # layout.template_list('BT_UL_Linter', '', prefs, 'lint_rules', context.scene, 'bl_lint_rule_active', columns=4)
+
+        reload_issues(prefs.lint_issues, prefs.lint_rules)
+        layout.template_list('BT_UL_Linter', '', prefs, 'lint_issues', context.scene, 'bl_lint_rule_active', columns=4)

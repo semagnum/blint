@@ -9,7 +9,7 @@
       "prop_label_expr": ""
     },
     {
-      "description": "extra numerics in name (usually from duplication)",
+      "description": "Avoid ending name with numerics",
       "severity_icon": "INFO",
       "category_icon": "OBJECT_DATA",
       "issue_expr": "o.name.split('.')[-1].isnumeric()",

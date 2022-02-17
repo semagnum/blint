@@ -1,10 +1,11 @@
 import bpy
 
+from .panels.BT_UL_Linter import BT_UL_Linter
 from .operators.BT_OT_ReloadRules import BT_OT_ReloadRules
 from .operators.BT_OT_FixIssue import BT_OT_FixIssue
 from .util import reload_rules
 from .preferences import SA_Preferences
-from .model.LintRule import LintRule
+from .model.LintRule import LintRule, LintIssue
 from .panels.BT_PT_Linter import BT_PT_Linter
 
 bl_info = {
@@ -17,13 +18,13 @@ bl_info = {
     "support": 'COMMUNITY',
     "category_icon": 'Scene'
 }
-prop_groups = [LintRule, SA_Preferences]
-operators_panels = [BT_OT_ReloadRules, BT_OT_FixIssue, BT_PT_Linter]
+prop_groups = [LintIssue, LintRule, SA_Preferences]
+operators_panels = [BT_UL_Linter, BT_OT_ReloadRules, BT_OT_FixIssue, BT_PT_Linter]
 
 classes = prop_groups + operators_panels
 
 properties = [
-    ('bl_lint_rule_active', bpy.props.IntProperty(default=0)),
+    ('bl_lint_rule_active', bpy.props.IntProperty(default=0))
 ]
 
 
@@ -42,6 +43,7 @@ def register():
         setattr(scene, name, prop)
 
     reload_rules(bpy.context)
+
 
 def unregister():
     for cls in classes[::-1]:
