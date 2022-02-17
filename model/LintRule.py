@@ -1,25 +1,12 @@
 import bpy
 
 
-class LintIssue(bpy.types.PropertyGroup):
-    description: bpy.props.StringProperty(name='Description', default='', options={'SKIP_SAVE'})
-    severity_icon: bpy.props.StringProperty(name='Severity', default='INFO', options={'SKIP_SAVE'})
-    category_icon: bpy.props.StringProperty(name='Category', default='GENERAL', options={'SKIP_SAVE'})
-    fix_expr: bpy.props.StringProperty(name='Fix', default='', options={'SKIP_SAVE'})
-
-    def draw(self, layout):
-        row = layout.row(align=True)
-        row.label(text='', icon=self.severity_icon)
-        row.label(text='', icon=self.category_icon)
-        row.label(text=self.description)
-        if self.fix_expr:
-            row.operator('scene_analyzer.fix_issue', text='', icon='FILE_TICK').fix = self.fix_expr
-
-
 class LintRule(bpy.types.PropertyGroup):
+    enabled: bpy.props.BoolProperty(name='Enabled', default=True)
+
     description: bpy.props.StringProperty(name='Description', default='', options={'SKIP_SAVE'})
     severity_icon: bpy.props.StringProperty(name='Severity', default='INFO', options={'SKIP_SAVE'})
-    category_icon: bpy.props.StringProperty(name='Category', default='GENERAL', options={'SKIP_SAVE'})
+    category_icon: bpy.props.StringProperty(name='Category', default='SCENE_DATA', options={'SKIP_SAVE'})
 
     iterable_expr: bpy.props.StringProperty(name='Iterable Expression', default='', options={'SKIP_SAVE'})
     iterable_var: bpy.props.StringProperty(name='Iterable Variable', default='x', options={'SKIP_SAVE'})
@@ -59,25 +46,35 @@ class LintRule(bpy.types.PropertyGroup):
             print('get_ui_identifier failed', e)
             return ''
 
+    def draw(self, layout):
+        row = layout.row(align=True)
+        row.prop(self, 'enabled', text='', icon='CHECKBOX_HLT' if self.enabled else 'CHECKBOX_DEHLT')
+        sub_row = row.row(align=True)
+        sub_row.enabled = self.enabled
+        sub_row.label(text='', icon=self.severity_icon)
+        sub_row.label(text='', icon=self.category_icon)
+        sub_row.label(text=self.description)
+
     def get_issues(self):
-        if self.iterable_expr:
-            issues = []
-            for idx, identifier in enumerate(self.get_iterative_list()):
+        if self.enabled:
+            if self.iterable_expr:
+                issues = []
+                for idx, identifier in enumerate(self.get_iterative_list()):
+                    issue = {
+                        'description': getattr(identifier, self.prop_label_expr, '') + ' ' + self.description,
+                        'severity_icon': self.severity_icon,
+                        'category_icon': self.category_icon,
+                        'fix_expr': self.generate_fix(idx) if self.fix_expr else ''
+                    }
+                    issues.append(issue)
+                return issues
+            elif self.does_issue_exist():
+                issue_id = self.get_ui_identifier()
                 issue = {
-                    'description': getattr(identifier, self.prop_label_expr, '') + ' ' + self.description,
+                    'description': (issue_id + ' ' + self.description) if issue_id else self.description,
                     'severity_icon': self.severity_icon,
                     'category_icon': self.category_icon,
-                    'fix_expr': self.generate_fix(idx) if self.fix_expr else ''
+                    'fix_expr': self.fix_expr
                 }
-                issues.append(issue)
-            return issues
-        elif self.does_issue_exist():
-            issue_identifier = self.get_ui_identifier()
-            issue = {
-                'description': (issue_identifier + ' ' + self.description) if issue_identifier else self.description,
-                'severity_icon': self.severity_icon,
-                'category_icon': self.category_icon,
-                'fix_expr': self.fix_expr
-            }
-            return [issue]
+                return [issue]
         return []

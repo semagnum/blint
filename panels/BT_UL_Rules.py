@@ -1,13 +1,12 @@
 import bpy
 
-from ..model.LintRule import LintIssue
+from ..model.LintRule import LintRule
 
 
-class BT_UL_Linter(bpy.types.UIList):
+class BT_UL_Rules(bpy.types.UIList):
 
-    def draw_item(self, context, layout, data, issue: LintIssue, icon, active_data, active_propname,
-                  index):
-        issue.draw(layout)
+    def draw_item(self, context, layout, data, rule: LintRule, icon, active_data, active_propname, index):
+        rule.draw(layout)
 
     def filter_items(self, context, data, propname):
         rules = getattr(data, propname)
@@ -15,7 +14,6 @@ class BT_UL_Linter(bpy.types.UIList):
 
         # Default return values.
         flt_flags = []
-        flt_neworder = []
 
         # Filtering by name
         if self.filter_name:

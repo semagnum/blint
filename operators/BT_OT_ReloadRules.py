@@ -1,6 +1,6 @@
 import bpy
 
-from ..util import get_user_preferences, reload_rules
+from ..util import reload_rules
 
 
 class BT_OT_ReloadRules(bpy.types.Operator):
@@ -10,9 +10,6 @@ class BT_OT_ReloadRules(bpy.types.Operator):
     bl_options = {'REGISTER', 'UNDO'}
 
     def execute(self, context):
-        preferences = get_user_preferences(context)
-        preferences.lint_rules.clear()
-
         try:
             reload_rules(context)
             return {'FINISHED'}

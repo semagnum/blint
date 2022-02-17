@@ -1,12 +1,14 @@
 import bpy
 
-from .panels.BT_UL_Linter import BT_UL_Linter
+from .panels.BT_UL_Rules import BT_UL_Rules
+from .panels.BT_UL_Issues import BT_UL_Issues
+from .panels.BT_PT_Issues import BT_PT_Issues
 from .operators.BT_OT_ReloadRules import BT_OT_ReloadRules
 from .operators.BT_OT_FixIssue import BT_OT_FixIssue
 from .util import reload_rules
 from .preferences import SA_Preferences
-from .model.LintRule import LintRule, LintIssue
-from .panels.BT_PT_Linter import BT_PT_Linter
+from .model.LintRule import LintRule
+from .model.LintIssue import LintIssue
 
 bl_info = {
     "name": 'BLint',
@@ -19,12 +21,14 @@ bl_info = {
     "category_icon": 'Scene'
 }
 prop_groups = [LintIssue, LintRule, SA_Preferences]
-operators_panels = [BT_UL_Linter, BT_OT_ReloadRules, BT_OT_FixIssue, BT_PT_Linter]
+operators_panels = [BT_UL_Rules, BT_UL_Issues, BT_OT_ReloadRules, BT_OT_FixIssue, BT_PT_Issues]
 
 classes = prop_groups + operators_panels
 
 properties = [
-    ('bl_lint_rule_active', bpy.props.IntProperty(default=0))
+    ('lint_rule_active', bpy.props.IntProperty(default=0)),
+    ('lint_issue_active', bpy.props.IntProperty(default=0)),
+    ('lint_issues', bpy.props.CollectionProperty(type=LintIssue)),
 ]
 
 
@@ -34,13 +38,13 @@ def security_check(expression: str):
 
 
 def register():
-    scene = bpy.types.Scene
+    window_manager = bpy.types.WindowManager
 
     for cls in classes:
         bpy.utils.register_class(cls)
 
     for name, prop in properties:
-        setattr(scene, name, prop)
+        setattr(window_manager, name, prop)
 
     reload_rules(bpy.context)
 

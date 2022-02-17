@@ -9,7 +9,7 @@
       "prop_label_expr": ""
     },
     {
-      "description": "Avoid ending name with numerics",
+      "description": "Avoid numeric name suffixes",
       "severity_icon": "INFO",
       "category_icon": "OBJECT_DATA",
       "issue_expr": "o.name.split('.')[-1].isnumeric()",

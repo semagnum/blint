@@ -6,15 +6,22 @@ def security_check(expression: str):
         raise ValueError('Expression contains insecure code: {}'.format(expression))
 
 
-def import_lint_rules(lint_rules, collection_properties):
+def import_lint_rules(lint_rules, collection_properties, existing_rules=None):
+    if existing_rules is None:
+        existing_rules = {}
     for rule in lint_rules:
         try:
             map(security_check, rule.values())
         except ValueError as ve:
             print(ve)
             continue
+
         new_rule: LintRule = collection_properties.add()
         new_rule.description = rule.get('description')
+        if new_rule.description in existing_rules:
+            new_rule.enabled = existing_rules.get(new_rule.description)
+        else:
+            new_rule.enabled = rule.get('enabled', True)
         new_rule.severity_icon = rule.get('severity_icon', 'INFO')
         new_rule.category_icon = rule.get('category_icon')
         new_rule.issue_expr = rule.get('issue_expr')
