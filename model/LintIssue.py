@@ -2,10 +2,10 @@ import bpy
 
 
 class LintIssue(bpy.types.PropertyGroup):
-    description: bpy.props.StringProperty(name='Description', default='', options={'SKIP_SAVE'})
-    severity_icon: bpy.props.StringProperty(name='Severity', default='INFO', options={'SKIP_SAVE'})
-    category_icon: bpy.props.StringProperty(name='Category', default='SCENE_DATA', options={'SKIP_SAVE'})
-    fix_expr: bpy.props.StringProperty(name='Fix', default='', options={'SKIP_SAVE'})
+    description: bpy.props.StringProperty(name='Description', default='')
+    severity_icon: bpy.props.StringProperty(name='Severity', default='INFO')
+    category_icon: bpy.props.StringProperty(name='Category', default='SCENE_DATA')
+    fix_expr: bpy.props.StringProperty(name='Fix', default='')
 
     def draw(self, layout):
         row = layout.row(align=True)
