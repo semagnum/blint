@@ -18,8 +18,8 @@ def import_lint_rules(lint_rules, collection_properties, existing_rules=None):
 
         new_rule: LintRule = collection_properties.add()
         new_rule.description = rule.get('description')
-        if new_rule.description in existing_rules:
-            new_rule.enabled = existing_rules.get(new_rule.description)
+        if new_rule.description in existing_rules and not existing_rules[new_rule.description]:
+            new_rule.enabled = False
         else:
             new_rule.enabled = rule.get('enabled', True)
         new_rule.severity_icon = rule.get('severity_icon', 'INFO')
