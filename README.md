@@ -23,7 +23,9 @@ Each rule should be defined as follows:
 
 - enabled (optional) - a boolean that determines whether the rule is enabled by default. Defaults to `true`.
 - description: a short description of the rule, listed with each issue.
-- Severity icon (optional): the name of a Blender icon* used to display the severity of the issue, such as "INFO" or "ERROR". "INFO" is the default.
+- Severity icon (optional): the string name of a Blender icon* used to display the severity of the issue.
+The following icons available: `[ERROR, INFO]`, with errors shown at the top.
+"INFO" is the default.
 - Category icon: name of a Blender icon* used to display the category of the issue, such as "OBJECT_DATA".
 - issue_expr: a Python expression that evaluates to True if the issue is present, False otherwise.
 - fix_expr (optional): Python statement(s) that fix(es) the issue. A rule should only have a fix if it meets the following conditions (Otherwise, the resolution should be left to the user's discretion):

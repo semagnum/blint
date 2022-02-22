@@ -1,6 +1,16 @@
 import bpy
 
 
+severity_levels = ['ERROR', 'INFO']
+
+
+def get_sort_value(lint_rule):
+    # if not in the list, put at the end
+    if lint_rule.severity_icon not in severity_levels:
+        return len(severity_levels)
+    return severity_levels.index(lint_rule.severity_icon)
+
+
 class LintIssue(bpy.types.PropertyGroup):
     description: bpy.props.StringProperty(name='Description', default='')
     severity_icon: bpy.props.StringProperty(name='Severity', default='INFO')

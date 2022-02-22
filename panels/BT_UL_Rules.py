@@ -1,6 +1,7 @@
 import bpy
 
 from ..model.LintRule import LintRule
+from ..model.LintIssue import get_sort_value
 
 
 class BT_UL_Rules(bpy.types.UIList):
@@ -23,7 +24,8 @@ class BT_UL_Rules(bpy.types.UIList):
         if not flt_flags:
             flt_flags = [self.bitflag_filter_item] * len(rules)
 
-        _sort = [(idx, getattr(it, 'description', '')) for idx, it in enumerate(rules)]
-        flt_neworder = helper_funcs.sort_items_helper(_sort, lambda e: e[1].lower())
+        _sort = [(idx, (get_sort_value(rule), getattr(rule, 'description', '').lower()))
+                 for idx, rule in enumerate(rules)]
+        flt_neworder = helper_funcs.sort_items_helper(_sort, lambda e: e[1])
 
         return flt_flags, flt_neworder
