@@ -13,7 +13,7 @@ from .model.LintIssue import LintIssue
 bl_info = {
     "name": 'BLint',
     "author": 'Spencer Magnusson',
-    "version": (0, 1, 0),
+    "version": (0, 1, 1),
     "blender": (2, 93, 0),
     "description": 'Custom project linting',
     "location": 'Scene',
@@ -55,7 +55,10 @@ def unregister():
 
     scene = bpy.types.Scene
     for name, _ in properties:
-        delattr(scene, name)
+        try:
+            delattr(scene, name)
+        except AttributeError:
+            pass
 
 
 if __name__ == '__main__':
