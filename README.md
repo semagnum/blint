@@ -70,3 +70,15 @@ Use the [bpy.context](https://docs.blender.org/api/current/bpy.context.html) mod
 For the icons, you can find a list of the Blender icons and their names from the built-in Blender addon, "Icon viewer."
 
 All the fields are checked for `exec()` or `eval()` to limit potential vulnerabilities. However, these rules evaluate real Python code, so _be cautious with using others' rules that you're not familiar with_.
+
+## Offline linter
+In the addon's `offline` folder contains python files that can be used to run blinter without Blender's GUI running.
+Here's the syntax to run it:
+```commandline
+python offline_blinter.py <path\to\blender.exe> <path\to\file.blend or path\to\directory>
+```
+It will run `blinter_file_checker.py` on each blend file. If given a single file, blinter will only run on that file.
+If given a directory, blinter will find all `.blend` files within that directory as well as all subdirectories.
+
+*Note: since Blender runs in the background, `bpy.context` may not be fully defined.
+Lint rules relying on `bpy.context` may not find issues as expected.*
