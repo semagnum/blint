@@ -53,13 +53,6 @@ def unregister():
     for cls in classes[::-1]:
         bpy.utils.unregister_class(cls)
 
-    scene = bpy.types.Scene
-    for name, _ in properties:
-        try:
-            delattr(scene, name)
-        except AttributeError:
-            pass
-
 
 if __name__ == '__main__':
     register()
