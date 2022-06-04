@@ -47,7 +47,7 @@ Example Config:
         "severity_icon": "ERROR",
         "category_icon": "MESH_CUBE",
         "issue_expr": "'Cube' in bpy.context.scene.objects",
-        "fix_expr": "bpy.ops.object.select_all(action='DESELECT'); bpy.context.scene.objects['Cube'].select_set(True); context.view_layer.objects.active = bpy.context.scene.objects['Cube']; bpy.ops.object.delete()",
+        "fix_expr": "bpy.data.objects.remove(objs[\"Cube\"], do_unlink=True)",
         "prop_label_expr": ""
     },
     {
