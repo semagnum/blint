@@ -27,6 +27,15 @@
       "fix_expr": "curr_scene.cycles.use_animated_seed = True",
       "iterable_expr": "bpy.data.scenes",
       "iterable_var": "curr_scene"
+    },
+    {
+      "description": "Visibility attributes differ",
+      "severity_icon": "INFO",
+      "category_icon": "HIDE_OFF",
+      "prop_label_expr": "name",
+      "issue_expr": "len({my_object.hide_viewport, my_object.hide_render, my_object.hide_get()}) != 1",
+      "iterable_expr": "bpy.data.objects",
+      "iterable_var": "my_object"
     }
   ]
 }
