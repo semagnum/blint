@@ -1,5 +1,6 @@
 import bpy
 
+from .icon_gen import get_icon_enum, get_severity_enum
 
 severity_levels = ['ERROR', 'INFO']
 
@@ -13,8 +14,8 @@ def get_sort_value(lint_rule):
 
 class LintIssue(bpy.types.PropertyGroup):
     description: bpy.props.StringProperty(name='Description', default='')
-    severity_icon: bpy.props.StringProperty(name='Severity', default='INFO')
-    category_icon: bpy.props.StringProperty(name='Category', default='SCENE_DATA')
+    severity_icon: bpy.props.EnumProperty(name='Severity', default='INFO', items=get_severity_enum())
+    category_icon: bpy.props.EnumProperty(name='Category', default='SCENE_DATA', items=get_icon_enum())
     fix_expr: bpy.props.StringProperty(name='Fix', default='')
 
     def draw(self, layout):

@@ -1,6 +1,6 @@
 import bpy
 
-from ..util import reload_rules
+from ..save_load_util import reload_rules
 
 
 class BT_OT_ReloadRules(bpy.types.Operator):
@@ -14,7 +14,7 @@ class BT_OT_ReloadRules(bpy.types.Operator):
             reload_rules(context)
             return {'FINISHED'}
         except Exception as e:
-            self.report({'ERROR'}, str(e))
+            self.report({'ERROR'}, 'Reload error failed: ' + str(e))
             return {'CANCELLED'}
 
 

@@ -15,4 +15,6 @@ class BT_PT_Issues(bpy.types.Panel):
         window_manager = context.window_manager
 
         reload_issues(context)
-        layout.template_list('BT_UL_Issues', '', window_manager, 'lint_issues', window_manager, 'lint_issue_active', columns=4)
+        layout.template_list('BT_UL_Issues', '',
+                             window_manager, 'lint_issues',
+                             window_manager, 'lint_issue_active', columns=4)

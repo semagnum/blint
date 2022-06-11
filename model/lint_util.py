@@ -1,12 +1,9 @@
-from .LintRule import LintRule
-
-
 def security_check(expression: str):
     if 'eval(' in expression or 'exec(' in expression:
         raise ValueError('Expression contains insecure code: {}'.format(expression))
 
 
-def import_lint_rules(lint_rules, collection_properties, existing_rules=None):
+def import_lint_rules(lint_rules, collection_properties, existing_rules=None, is_internal=False):
     if existing_rules is None:
         existing_rules = {}
     for rule in lint_rules:
@@ -16,7 +13,7 @@ def import_lint_rules(lint_rules, collection_properties, existing_rules=None):
             print(ve)
             continue
 
-        new_rule: LintRule = collection_properties.add()
+        new_rule = collection_properties.add()
         new_rule.description = rule.get('description')
         if new_rule.description in existing_rules and not existing_rules[new_rule.description]:
             new_rule.enabled = False
@@ -29,3 +26,4 @@ def import_lint_rules(lint_rules, collection_properties, existing_rules=None):
         new_rule.prop_label_expr = rule.get('prop_label_expr', '')
         new_rule.iterable_var = rule.get('iterable_var', '')
         new_rule.iterable_expr = rule.get('iterable_expr', '')
+        new_rule.is_internal = is_internal
