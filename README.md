@@ -19,24 +19,54 @@ If a fix is provided for a given rule, there will also be a button to apply the 
 
 ## Creating your own rules
 
-Each rule should be defined as follows:
+### Creating by using the form
+There is now a form in the add-on preferences panel.
+Once you have an external config (you can always save a text file of "whatever name.json"),
+you can create a new rule by clicking the "Create Rules" button.
 
-- enabled (optional) - a boolean that determines whether the rule is enabled by default. Defaults to `true`.
-- description: a short description of the rule, listed with each issue.
+Here are the properties:
+
+- Enabled by default - determines whether the rule is enabled by default. Defaults to `true`.
+- Description: a short description of the rule, listed with each issue.
 - Severity icon (optional): the string name of a Blender icon* used to display the severity of the issue.
 The following icons available: `[ERROR, INFO]`, with errors shown at the top.
 "INFO" is the default.
 - Category icon: name of a Blender icon* used to display the category of the issue, such as "OBJECT_DATA".
-- issue_expr: a Python expression that evaluates to True if the issue is present, False otherwise.
-- fix_expr (optional): Python statement(s) that fix(es) the issue. A rule should only have a fix if it meets the following conditions (Otherwise, the resolution should be left to the user's discretion):
+- Iterable expression: Python code that evaluates to a list of Blend data
+(such as each scene or object in a blend file).
+If provided, multiple issues can be found from one rule.
+- Iterable variable: variable name that can be used to reference an element.
+If you provide `my_scene`, you can use `my_scene` to reference any given scene in your issue expression and fix statements.
+Note: The algorithm relies on a simple text replacement for the issue and fix expressions, so be careful
+(for example, an iterable variable "o" will replace every "o" in the issue expression and fix statement, which can be problematic.)
+- Iterable identifier expression (optional): the attribute of each iterable element to be used with the description.
+`name` is default.
+- Issue expression: a Python expression that evaluates to `True` if the issue is present, `False` otherwise.
+- Fix statements (optional): Python statement(s) that fix(es) the issue. A rule should only have a fix if it meets the following conditions (Otherwise, the resolution should be left to the user's discretion):
   - the fix will always work (no errors)
   - the fix is always what the user would want
   - the fix will remove the issue
-- iterable_expr (optional): a string of Python code that evaluates to a list of  properties. If provided, multiple issues can be found from one rule.
-- iterable_var (optional): when provided, any instance of `iterable_var` in `issue_expr` or `fix_expr` will be replaced with the value of `iterable_expr`. It is just a simple match replacement, so be careful (for example, the `iterable_var` "o" will replace every "o".)
-- prop_label_expr (optional): If `iterable_var` is used, then `prop_label_expr` is the attribute of each iterable element to be used with the description. 
+
+
+### Creating by editing the config directly
+Each rule should be defined as follows:
+
+- `enabled` (optional) - a boolean that determines whether the rule is enabled by default. Defaults to `true`.
+- `description`: a short description of the rule, listed with each issue.
+- `severity_icon` (optional): the name of the Blender icon used to display the severity of the issue.
+The following icons available: `[ERROR, INFO]`, with errors shown at the top of the issues list.
+"INFO" is the default.
+- `category_icon`: name of a Blender icon* used to display the category of the issue, such as "OBJECT_DATA".
+- `iterable_expr` (optional): a string of Python code that evaluates to a list of  properties. If provided, multiple issues can be found from one rule.
+- `iterable_var` (optional): when provided, any instance of `iterable_var` in `issue_expr` or `fix_expr` will be replaced with the value of `iterable_expr`. It is just a simple match replacement, so be careful (for example, the `iterable_var` "o" will replace every "o".)
+- `prop_label_expr` (optional): If `iterable_var` is used, then `prop_label_expr` is the attribute of each iterable element to be used with the description. 
 For example, "name" with `iterable_var` "bpy.data.objects" means that each object's `name` will be shown in the description). 
 Otherwise, Python that evaluates it to a string used to label the issue.
+- `issue_expr`: a Python expression that evaluates to True if the issue is present, False otherwise.
+- `fix_expr` (optional): Python statement(s) that fix(es) the issue. A rule should only have a fix if it meets the following conditions (Otherwise, the resolution should be left to the user's discretion):
+  - the fix will always work (no errors)
+  - the fix is always what the user would want
+  - the fix will remove the issue
 
 Example Config:
 ```json
