@@ -5,7 +5,7 @@
       "severity_icon": "INFO",
       "category_icon": "MESH_CUBE",
       "issue_expr": "'Cube' in bpy.data.objects",
-      "fix_expr": "bpy.data.objects.remove(objs[\"Cube\"], do_unlink=True)",
+      "fix_expr": "bpy.data.objects.remove(bpy.data.objects[\"Cube\"], do_unlink=True)",
       "prop_label_expr": ""
     },
     {
