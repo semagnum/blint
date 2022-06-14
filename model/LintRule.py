@@ -76,7 +76,7 @@ class LintRule(bpy.types.PropertyGroup):
 
     def generate_fix(self, idx=-1) -> str:
         access_var = '{}[{}]'.format(self.get_list_str(), idx)
-        return self.fix_expr.replace(self.iterable_var, access_var)
+        return '{} = {}; '.format(self.iterable_var, access_var) + self.fix_expr
 
     def get_iterative_list(self):
         expr = self.get_list_str()
