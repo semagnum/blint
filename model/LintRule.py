@@ -122,7 +122,7 @@ class LintRule(bpy.types.PropertyGroup):
                 issues = []
                 for idx, identifier in enumerate(self.get_iterative_list()):
                     issue = {
-                        'description': getattr(identifier, self.prop_label_expr, '') + ': ' + self.description,
+                        'description': str(getattr(identifier, self.prop_label_expr, '')) + ': ' + self.description,
                         'severity_icon': self.severity_icon,
                         'category_icon': self.category_icon,
                         'fix_expr': self.generate_fix(idx) if self.fix_expr else ''
@@ -132,7 +132,7 @@ class LintRule(bpy.types.PropertyGroup):
             elif self.does_issue_exist():
                 issue_id = self.get_ui_identifier()
                 issue = {
-                    'description': (issue_id + ' ' + self.description) if issue_id else self.description,
+                    'description': (str(issue_id) + ' ' + self.description) if issue_id else self.description,
                     'severity_icon': self.severity_icon,
                     'category_icon': self.category_icon,
                     'fix_expr': self.fix_expr
