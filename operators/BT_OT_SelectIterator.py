@@ -4,7 +4,7 @@ from ..model.icon_gen import bpy_data_enum
 
 class BT_OT_SelectIterator(bpy.types.Operator):
     bl_idname = 'blint.form_select_iterator'
-    bl_label = 'Select from Blend Data'
+    bl_label = 'Select from blend data'
     bl_description = 'Selects a data collection from the blend data'
     bl_options = {'REGISTER', 'UNDO'}
 

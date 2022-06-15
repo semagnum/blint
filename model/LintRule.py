@@ -27,7 +27,9 @@ class LintRule(bpy.types.PropertyGroup):
                                        description='Statement(s) to fix the issue'
                                                    '(can reference iterable variable)',
                                        default='')
-    prop_label_expr: bpy.props.StringProperty(name='Identifier', default='name')
+    prop_label_expr: bpy.props.StringProperty(name='Identifier',
+                                              description='Data attribute to get the name of the property',
+                                              default='name')
 
     def check_for_errors(self) -> list:
         issues = []

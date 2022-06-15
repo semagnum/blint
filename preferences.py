@@ -84,33 +84,34 @@ def draw_rule_creation(layout, context):
     op = row.operator(BT_OT_IconSelection.bl_idname, text='Select category icon', icon='IMAGE_DATA')
     op.attr_name = 'category_icon'
 
-    layout.label(text='Detect')
-    detect_box = layout.box()
+    row = layout.row(align=True)
+    row.label(text='For each data item in')
+    row.prop(form_rule, 'iterable_expr', text='')
+    row.operator(BT_OT_SelectIterator.bl_idname, icon='FILE_BLEND')
 
-    # iterable expr
-    detect_box.prop(form_rule, 'iterable_expr')
-    detect_box.operator(BT_OT_SelectIterator.bl_idname, icon='FILE_BLEND')
+    box = layout.box()
+    box.prop(form_rule, 'prop_label_expr')
 
-    detect_box.prop(form_rule, 'iterable_var')
-    # preview iterable var replacement
+    box.separator()
 
-    detect_box.prop(form_rule, 'prop_label_expr')
-    detect_box.prop(form_rule, 'issue_expr', text='Boolean expression')
-
-    layout.label(text='Fix (optional)')
-    fix_box = layout.box()
-    fix_box.prop(form_rule, 'fix_expr', text='Statement(s)')
+    box.prop(form_rule, 'iterable_var', text='Variable name')
+    box.prop(form_rule, 'issue_expr', text='An issue exists if')
+    box.prop(form_rule, 'fix_expr', text='Issue fix (optional)')
 
     validation_errs = form_rule.check_for_errors()
     is_valid = len(validation_errs) == 0
     if is_valid:
         layout.label(text='Validation passed', icon='CHECKMARK')
 
-        reload_form_issues(wm)
+        try:
+            reload_form_issues(wm)
 
-        layout.label(text='Debug')
-        layout.template_list('BT_UL_Issues', '', wm, 'blint_form_issues', wm, 'blint_form_issue_active',
-                             columns=4)
+            layout.label(text='Debug')
+            layout.template_list('BT_UL_Issues', '', wm, 'blint_form_issues', wm, 'blint_form_issue_active',
+                                 columns=4)
+        except Exception as e:
+            print(e)
+            layout.label(text='Issue debugging failed, check console', icon='ERROR')
     else:
         layout.label(text='Validation failed', icon='ERROR')
         for err in validation_errs:
