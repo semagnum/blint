@@ -1,7 +1,11 @@
-# BLint Quickstart
-See further details in the BLint docs at [semagnum.github.io/blint/](https://semagnum.github.io/blint/).
+---
+# title: Overview
+---
+## Learn
 
-## Introduction
+In programming IDEs like Visual Studio Code or PyCharm,
+a linter is used to analyze code to highlight
+bad practices, naming conventions, or potentially bad code.
 
 This addon allows users to run a series of checks on the Blender project
 for the purpose of standardization and improving project file conventions.
@@ -10,18 +14,13 @@ automate continuous integration and quality checks before hitting 'Render'
 or sending off to a render farm.
 Quality checks may include but are not limited to:
 
-- blend data naming conventions (no more 'Cube.025'!)
+- Naming conventions
 - checking render settings that may affect performance or expected results
 - ensuring textures are all packed or located in a specific folder
 
 In some cases, an issue can be easily fixed.
 Each BLint rule has the option of implementing an automatic fix.
-External configurations can be used as well as rules that come built-in with BLint.
+External configurations can be used as well as rules that come built-in.
 
-## Installation
-1. Go to the main toolbar, select "Edit" and click "Preferences..."
-2. Select the "Addons" section
-3. Click "Install..." to open the file window
-4. Select the zip file from your hard drive
-5. Once the file window closes, the addon list should filter itself to only show BLint
-6. Check the box to enable it.
+This addon supports Blender 3.0 and above (it may be compatible on older versions
+but not guaranteed).

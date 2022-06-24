@@ -19,7 +19,7 @@ from .model.LintIssue import LintIssue
 bl_info = {
     "name": 'BLint',
     "author": 'Spencer Magnusson',
-    "version": (0, 2, 0),
+    "version": (0, 2, 1),
     "blender": (2, 93, 0),
     "description": 'Custom project linting',
     "location": 'Scene',
