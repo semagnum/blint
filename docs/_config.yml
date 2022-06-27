@@ -4,7 +4,7 @@
 #
 # You can access these variables via {{ site.title }}, {{ site.email }}, etc.
 
-title: bLint
+title: BLint
 email: semagnum+blint@gmail.com
 description: BLint Official Documentation
 github_username: semagnum
