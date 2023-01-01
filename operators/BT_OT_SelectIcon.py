@@ -6,11 +6,14 @@ from ..model.icon_gen import get_icons, format_icon_name
 class BT_OT_SelectIcon(bpy.types.Operator):
     bl_idname = 'blint.select_icon'
     bl_label = 'Select Icon'
-    bl_description = 'Selects this icon for given form property'
     bl_options = {'REGISTER', 'UNDO'}
 
     attr_name: bpy.props.StringProperty(name='Form attribute', default='')
     selected_icon: bpy.props.StringProperty(name='Selected Icon', default='')
+
+    @classmethod
+    def description(cls, context, properties):
+        return 'Select "{}" as the {}'.format(format_icon_name(properties.selected_icon), format_icon_name(properties.attr_name))
 
     def execute(self, context):
         window_manager = context.window_manager
