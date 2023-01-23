@@ -5,6 +5,9 @@ from ..pref_util import get_user_preferences
 
 
 class BT_OT_CreateRule(bpy.types.Operator):
+    """Creates new rule from the rule creation form in the preferences.
+
+    External JSON file required to save new rule."""
     bl_idname = 'scene_analyzer.form_create_rule'
     bl_label = 'Create Rule'
     bl_description = 'Creates new rule (external file source required)'

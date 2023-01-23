@@ -5,12 +5,14 @@ from ..pref_util import get_user_preferences
 
 
 class BT_OT_DeleteRule(bpy.types.Operator):
+    """Deletes rule from the preferences."""
     bl_idname = 'blint.delete_rule'
     bl_label = 'Delete Rule'
     bl_description = 'Deletes this rule'
     bl_options = {'REGISTER', 'UNDO'}
 
     rule_index: bpy.props.IntProperty(default=-1)
+    """Index of the rule to be deleted from BLint's list."""
 
     def execute(self, context):
         if self.rule_index == -1:

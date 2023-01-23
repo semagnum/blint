@@ -5,6 +5,7 @@ from ..model.LintIssue import get_sort_value
 
 
 class BT_UL_Rules(bpy.types.UIList):
+    """Blender UI List to display rules in the preferences. Includes filtering and sorting."""
 
     def draw_item(self, context, layout, data, rule: LintRule, icon, active_data, active_propname, index):
         rule.draw(layout, index)

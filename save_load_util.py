@@ -6,6 +6,10 @@ import bpy
 
 
 def reload_rules(context):
+    """Reloads rules from BLint's and external JSON file, if exists.
+
+    :param context: Blender's context
+    """
     preferences = get_user_preferences(context)
     lint_collection = get_user_preferences(context).lint_rules
 
@@ -32,6 +36,10 @@ def reload_rules(context):
 
 
 def save_external_rules(context):
+    """Saves rules to external JSON file.
+
+    :param context: Blender's context
+    """
     preferences = get_user_preferences(context)
     lint_collection = get_user_preferences(context).lint_rules
 

@@ -4,15 +4,19 @@ from ..model.icon_gen import get_icons, format_icon_name
 
 
 class BT_OT_SelectIcon(bpy.types.Operator):
+    """Sets selected icon name as icon for the rule creation form."""
     bl_idname = 'blint.select_icon'
     bl_label = 'Select Icon'
     bl_options = {'REGISTER', 'UNDO'}
 
     attr_name: bpy.props.StringProperty(name='Form attribute', default='')
+    """Name of LintRule attribute (which must be a `bpy.props.StringProperty`) to set icon name to."""
     selected_icon: bpy.props.StringProperty(name='Selected Icon', default='')
+    """Icon name to be set to the attribute."""
 
     @classmethod
     def description(cls, context, properties):
+        """Uses icon name as part of tooltip."""
         return 'Select "{}" as the {}'.format(format_icon_name(properties.selected_icon), format_icon_name(properties.attr_name))
 
     def execute(self, context):
@@ -27,6 +31,7 @@ class BT_OT_SelectIcon(bpy.types.Operator):
 
 
 class BT_OT_IconSelection(bpy.types.Operator):
+    """Previews icons that can be selected for new rule."""
     bl_idname = 'blint.icon_selection'
     bl_label = 'Select Icon, then press \'OK\' to select'
     bl_description = 'Shows a list of icons to select'

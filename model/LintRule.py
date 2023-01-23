@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import bpy
 
 from ..operators.BT_OT_DeleteRule import BT_OT_DeleteRule
@@ -5,33 +7,67 @@ from .icon_gen import get_icon_enum, get_severity_enum
 
 
 class LintRule(bpy.types.PropertyGroup):
+    """Model class for BLint rule properties. Used for displaying within a UI list.
+     BLint rules are violations that may be seen in the Blender file that can be fixed.
+    """
     enabled: bpy.props.BoolProperty(name='Enabled', default=True)
+    """If rule is enabled by default."""
     is_internal: bpy.props.BoolProperty(name='Internal', default=False)
-
+    """If rule comes from BLint's internal list, else an external JSON file."""
     description: bpy.props.StringProperty(name='Description', default='')
+    """Describes the issue based on its rule."""
     severity_icon: bpy.props.EnumProperty(name='Severity', default='INFO', items=get_severity_enum())
+    """Name of Blender icon to represent severity."""
     category_icon: bpy.props.EnumProperty(name='Category', default='SCENE_DATA', items=get_icon_enum())
+    """Name of Blender icon to represent the category of the issue's rule (meshes, animation, etc.)."""
 
     iterable_expr: bpy.props.StringProperty(name='Iterable Expression',
                                             description='Expression to find the collection'
                                                         'containing elements with potential issues',
                                             default='bpy.data.scenes')
+    """String of Python code that evaluates to a list of properties. Optional.
+    
+    If provided, multiple issues can be found from one rule.
+    """
     iterable_var: bpy.props.StringProperty(name='Iterable Variable',
                                            description='Variable to use for iterating over the collection',
                                            default='my_scene')
+    """Required if `iterable_expr` is defined.
+    
+    If provided, any instance of `iterable_var` in `issue_expr` or `fix_expr`
+    will be replaced with the value of `iterable_expr`.
+    """
     issue_expr: bpy.props.StringProperty(name='Issue',
                                          description='Python expression that returns true if issue exists'
                                                      '(can reference iterable variable)',
                                          default='')
+    """Optional. Python statement(s) that fix(es) the issue.
+    
+    A rule should only have a fix that will always work (no errors), is always what the user would want,
+    and will remove the issue from the panel.
+    """
     fix_expr: bpy.props.StringProperty(name='Fix',
                                        description='Statement(s) to fix the issue'
                                                    '(can reference iterable variable)',
                                        default='')
+    """String representation of Python code that will fix the issue."""
     prop_label_expr: bpy.props.StringProperty(name='Identifier',
                                               description='Data attribute to get the name of the property',
                                               default='name')
+    """Python expression that evaluates to an attribute to be used with the description in the UI.
+    
+    If `iterable_var` is used, then `prop_label_expr` is the attribute of each iterable element to be used with the description.
+    
+    For example, "name" with `iterable_var` "bpy.data.objects" means
+    that each object's `name` will be shown in the description).
+    Otherwise, Python that evaluates it to a string used to label the issue.
+    """
 
-    def check_for_errors(self) -> list:
+    def check_for_errors(self) -> list[str]:
+        """Validates `LintRule` properties.
+
+        Returns a list of errors to fix to make the LintRule valid.
+        """
         issues = []
         if self.description == '':
             issues.append('Description cannot be empty')
@@ -48,6 +84,7 @@ class LintRule(bpy.types.PropertyGroup):
         return issues
 
     def reset(self):
+        """Resets rule to default property values."""
         self.enabled = True
         self.description = ''
         self.severity_icon = 'INFO'
@@ -58,7 +95,11 @@ class LintRule(bpy.types.PropertyGroup):
         self.fix_expr = ''
         self.prop_label_expr = ''
 
-    def copy(self, other_rule):
+    def copy(self, other_rule: LintRule) -> LintRule:
+        """Copies self's properties to another rule, and returns the other rule.
+
+        :param other_rule: target rule to have properties applied and then returned.
+        """
         other_rule.enabled = self.enabled
         other_rule.description = self.description
         other_rule.severity_icon = self.severity_icon
@@ -71,16 +112,25 @@ class LintRule(bpy.types.PropertyGroup):
         other_rule.prop_label_expr = self.prop_label_expr
         return other_rule
 
-    def get_list_str(self):
+    def get_list_str(self) -> str:
+        """Generates a list of data items that violate the LintRule.
+
+        Returns Python code to represent a Python list of LintIssue items.
+        """
         expr = "[{} for {} in {} if {}]".format(self.iterable_var, self.iterable_var, self.iterable_expr,
                                                 self.issue_expr)
         return expr
 
-    def generate_fix(self, idx=-1) -> str:
+    def generate_fix(self, idx: int = -1) -> str:
+        """Generates and returns a Python statement to fix a LintIssue instance of a rule.
+
+        :param idx: element index within the issue list.
+        """
         access_var = '{}[{}]'.format(self.get_list_str(), idx)
         return '{} = {}; '.format(self.iterable_var, access_var) + self.fix_expr
 
-    def get_iterative_list(self):
+    def get_iterative_list(self) -> list:
+        """Evaluates get_list_str() and returns a list to iterate for displaying and fixing issues."""
         expr = self.get_list_str()
         try:
             return eval(expr)
@@ -89,16 +139,15 @@ class LintRule(bpy.types.PropertyGroup):
             return []
 
     def does_issue_exist(self) -> bool:
+        """Returns True if any issues exist that violate the rule, False otherwise."""
         try:
             return eval(self.issue_expr)
         except Exception as e:
             print('does_issue_exist failed:', e, self.issue_expr)
             return False
 
-    def get_ui_identifier(self):
-        """
-        :return: string representing which property has the issue
-        """
+    def get_ui_identifier(self) -> str:
+        """Retrieves a string-based data property that contains the rule violation."""
         if not self.prop_label_expr:
             return ''
         try:
@@ -107,7 +156,8 @@ class LintRule(bpy.types.PropertyGroup):
             print('get_ui_identifier failed', e)
             return ''
 
-    def draw(self, layout, index):
+    def draw(self, layout: bpy.types.UILayout, index: int):
+        """Draws rule in a panel."""
         row = layout.row(align=True)
         row.prop(self, 'enabled', text='', icon='CHECKBOX_HLT' if self.enabled else 'CHECKBOX_DEHLT')
         sub_row = row.row(align=True)
@@ -118,7 +168,8 @@ class LintRule(bpy.types.PropertyGroup):
         op = sub_row.operator(BT_OT_DeleteRule.bl_idname, text='', icon='X')
         op.rule_index = index
 
-    def get_issues(self):
+    def get_issues(self) -> list[dict]:
+        """Generates and returns a list of issues that violate rules."""
         if self.enabled:
             if self.iterable_expr:
                 issues = []

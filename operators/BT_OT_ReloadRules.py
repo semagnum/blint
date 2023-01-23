@@ -4,6 +4,7 @@ from ..save_load_util import reload_rules
 
 
 class BT_OT_ReloadRules(bpy.types.Operator):
+    """Reloads linter rules from internal as well as external configuration."""
     bl_idname = 'blint.reload_rules'
     bl_label = 'Reload linter rules'
     bl_description = 'Reloads linter rules from internal as well as external configuration'

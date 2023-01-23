@@ -10,6 +10,7 @@ from .operators.BT_OT_SelectIterator import BT_OT_SelectIterator
 
 
 def reload_issues(context):
+    """Reload issues"""
     issues_collection = context.window_manager.lint_issues
     rules = get_user_preferences(context).lint_rules
     issues_collection.clear()
@@ -26,12 +27,17 @@ def reload_issues(context):
 
 
 class SA_Preferences(bpy.types.AddonPreferences):
+    """BLint preferences"""
     bl_idname = __package__
 
     lint_rules: bpy.props.CollectionProperty(type=LintRule)
+    """BLint rules to be checked in files."""
+
     lint_filepath: bpy.props.StringProperty(name='External lint rules filepath', default='', subtype='FILE_PATH')
+    """Path to external JSON file containing BLint rules."""
 
     def draw(self, context):
+        """Draws BLint preference properties and operators, including rule creation."""
         layout = self.layout
         wm = context.window_manager
 
@@ -55,8 +61,17 @@ class SA_Preferences(bpy.types.AddonPreferences):
 
 
 def draw_rule_creation(layout, context):
+    """Draws rule creation form.
+
+    :param layout: Blender UILayout
+    :param context: Blender context
+    """
 
     def reload_form_issues(wm):
+        """Reloads issue debugger.
+
+        :param wm: Blender windows manager
+        """
         wm.blint_form_issues.clear()
         r = wm.blint_form_rule
         for issue in r.get_issues():

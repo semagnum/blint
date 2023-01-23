@@ -4,6 +4,7 @@ from ..preferences import reload_issues
 
 
 class BT_PT_Issues(bpy.types.Panel):
+    """Scene panel to display issues found in the Blender file."""
     bl_label = 'BLinter'
     bl_category = 'BLinter'
     bl_space_type = 'PROPERTIES'

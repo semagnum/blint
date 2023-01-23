@@ -1,3 +1,7 @@
+"""
+Utility functions and data for retrieving and displaying icons.
+"""
+
 import bpy
 
 excluded_icon_prefixes = ('BRUSH_', 'MATCAP_', 'EVENT_', 'MOUSE_', 'COLORSET_', 'ZOOM_',
@@ -13,18 +17,24 @@ allowed_bpy_data = ['actions', 'armatures', 'brushes', 'cache_files', 'cameras',
 severity_icons = ['ERROR', 'INFO']
 
 
-def format_icon_name(icon):
+def format_icon_name(icon: str) -> str:
+    """Generates and returns icon's display name.
+
+    :param icon: bpy icon data.
+    """
     return icon.replace('_', ' ').title()
 
 
-def get_icon_enum():
+def get_icon_enum() -> list[tuple]:
+    """Generates a `bpy.props.EnumProperty` set of items from get_icons()."""
     return [(icon, format_icon_name(icon), format_icon_name(icon), icon, idx)
             for idx, icon
             in enumerate(get_icons())
             ]
 
 
-def get_icons():
+def get_icons() -> list[str]:
+    """Retrieves a filtered list of all Blender icons, filtering excluded icon prefixes."""
     return [icon
             for icon
             in bpy.types.UILayout.bl_rna.functions["prop"].parameters["icon"].enum_items.keys()
@@ -36,12 +46,14 @@ def get_icons():
             ]
 
 
-def get_severity_enum():
+def get_severity_enum() -> list[tuple]:
+    """Generates a `bpy.props.EnumProperty` set of items for all severity icons."""
     return [(icon, icon.title(), icon.title(), icon, idx)
             for idx, icon in enumerate(severity_icons)]
 
 
-def bpy_data_enum():
+def bpy_data_enum() -> list[tuple]:
+    """Generates a `bpy.props.EnumProperty` set of items for all icons representing bpy data types."""
     icons = get_icons()
     data_icons = [i for i in icons if 'DATA' in i]
     data_to_icon = {

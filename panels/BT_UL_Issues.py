@@ -4,6 +4,7 @@ from ..model.LintIssue import LintIssue, get_sort_value
 
 
 class BT_UL_Issues(bpy.types.UIList):
+    """Blender UI List to display issues. Includes filtering and sorting."""
 
     def draw_item(self, context, layout, data, issue: LintIssue, icon, active_data, active_propname,
                   index):

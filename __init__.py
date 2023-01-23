@@ -19,7 +19,7 @@ from .model.LintIssue import LintIssue
 bl_info = {
     "name": 'BLint',
     "author": 'Spencer Magnusson',
-    "version": (0, 2, 1),
+    "version": (0, 2, 2),
     "blender": (2, 93, 0),
     "description": 'Custom project linting',
     "location": 'Scene',
@@ -44,11 +44,6 @@ properties = [
     ('blint_form_issues', bpy.props.CollectionProperty(type=LintIssue)),
     ('form_collapsed', bpy.props.BoolProperty(name='Create Rules', default=True))
 ]
-
-
-def security_check(expression: str):
-    if 'eval(' in expression or 'exec(' in expression:
-        raise ValueError('Expression contains insecure code: {}'.format(expression))
 
 
 def register():

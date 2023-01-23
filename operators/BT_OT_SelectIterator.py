@@ -3,12 +3,14 @@ from ..model.icon_gen import bpy_data_enum
 
 
 class BT_OT_SelectIterator(bpy.types.Operator):
+    """Selects a data collection from the blend data."""
     bl_idname = 'blint.form_select_iterator'
     bl_label = 'Select from blend data'
     bl_description = 'Selects a data collection from the blend data'
     bl_options = {'REGISTER', 'UNDO'}
 
     bpy_data_types: bpy.props.EnumProperty(name='Blend Data Type', default='scenes', items=bpy_data_enum())
+    """List of Blend data types."""
 
     def invoke(self, context, event):
         wm = context.window_manager
