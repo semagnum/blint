@@ -1,13 +1,16 @@
----
-# title: Overview
----
-## Learn
+BLint Official Documentation
+=============================
+
+.. image:: img/blint-logo.png
+
+Overview
+--------
 
 In programming IDEs like Visual Studio Code or PyCharm,
 a linter is used to analyze code to highlight
 bad practices, naming conventions, or potentially bad code.
 
-This addon allows users to run a series of checks on the Blender project
+BLint allows users to run a series of checks on the Blender project
 for the purpose of standardization and improving project file conventions.
 Automated checks provided by BLint can speed up workflow and
 automate continuous integration and quality checks before hitting 'Render'
@@ -24,3 +27,31 @@ External configurations can be used as well as rules that come built-in.
 
 This addon supports Blender 3.0 and above (it may be compatible on older versions
 but not guaranteed).
+
+Contents
+--------
+
+.. toctree::
+   :maxdepth: 1
+
+   use
+   create
+
+Python Docs
+-----------
+
+.. toctree::
+   :maxdepth: 2
+
+   blint.operators
+   blint.panels
+   blint.model
+   blint.offline
+   blint
+
+
+Indices
+==================
+
+* :ref:`genindex`
+* :ref:`search`
