@@ -1,2 +1,7 @@
 .idea/
 .vscode/
+
+_static/
+_templates/
+build/
+_build/
