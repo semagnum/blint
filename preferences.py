@@ -3,6 +3,7 @@ from .model.LintRule import LintRule
 from .operators.BT_OT_ReloadRules import BT_OT_ReloadRules
 from .pref_util import get_user_preferences
 from .model.icon_gen import format_icon_name
+from .save_load_util import reload_rules
 
 from .operators.BT_OT_SelectIcon import BT_OT_IconSelection
 from .operators.BT_OT_CreateRule import BT_OT_CreateRule
@@ -26,6 +27,10 @@ def reload_issues(context):
                 print("Error with {}: {}".format(issue.get('description'), e))
 
 
+def lint_filepath_update(_self, context):
+    reload_rules(context)
+
+
 class SA_Preferences(bpy.types.AddonPreferences):
     """BLint preferences"""
     bl_idname = __package__
@@ -33,7 +38,8 @@ class SA_Preferences(bpy.types.AddonPreferences):
     lint_rules: bpy.props.CollectionProperty(type=LintRule)
     """BLint rules to be checked in files."""
 
-    lint_filepath: bpy.props.StringProperty(name='External lint rules filepath', default='', subtype='FILE_PATH')
+    lint_filepath: bpy.props.StringProperty(name='External lint rules filepath', default='',
+                                            subtype='FILE_PATH', update=lint_filepath_update)
     """Path to external JSON file containing BLint rules."""
 
     def draw(self, context):
