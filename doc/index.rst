@@ -43,10 +43,10 @@ Python Docs
 .. toctree::
    :maxdepth: 2
 
-   blint.operators
-   blint.panels
-   blint.model
-   blint.offline
+   operators
+   panels
+   model
+   offline
    blint
 
 
