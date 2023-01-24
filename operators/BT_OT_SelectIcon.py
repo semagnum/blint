@@ -10,7 +10,7 @@ class BT_OT_SelectIcon(bpy.types.Operator):
     bl_options = {'REGISTER', 'UNDO'}
 
     attr_name: bpy.props.StringProperty(name='Form attribute', default='')
-    """Name of LintRule attribute (which must be a `bpy.props.StringProperty`) to set icon name to."""
+    """Name of LintRule attribute of type ``bpy.props.StringProperty`` to set icon name to."""
     selected_icon: bpy.props.StringProperty(name='Selected Icon', default='')
     """Icon name to be set to the attribute."""
 

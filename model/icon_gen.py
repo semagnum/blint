@@ -26,7 +26,7 @@ def format_icon_name(icon: str) -> str:
 
 
 def get_icon_enum() -> list[tuple]:
-    """Generates a `bpy.props.EnumProperty` set of items from get_icons()."""
+    """Generates a ``bpy.props.EnumProperty`` set of items from get_icons()."""
     return [(icon, format_icon_name(icon), format_icon_name(icon), icon, idx)
             for idx, icon
             in enumerate(get_icons())
@@ -47,13 +47,13 @@ def get_icons() -> list[str]:
 
 
 def get_severity_enum() -> list[tuple]:
-    """Generates a `bpy.props.EnumProperty` set of items for all severity icons."""
+    """Generates a ``bpy.props.EnumProperty`` set of items for all severity icons."""
     return [(icon, icon.title(), icon.title(), icon, idx)
             for idx, icon in enumerate(severity_icons)]
 
 
 def bpy_data_enum() -> list[tuple]:
-    """Generates a `bpy.props.EnumProperty` set of items for all icons representing bpy data types."""
+    """Generates a ``bpy.props.EnumProperty`` set of items for all icons representing bpy data types."""
     icons = get_icons()
     data_icons = [i for i in icons if 'DATA' in i]
     data_to_icon = {

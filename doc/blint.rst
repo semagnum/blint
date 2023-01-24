@@ -1,5 +1,5 @@
 blint root package files
-=============
+========================
 
 Preferences
 -----------

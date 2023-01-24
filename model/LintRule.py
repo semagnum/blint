@@ -32,10 +32,10 @@ class LintRule(bpy.types.PropertyGroup):
     iterable_var: bpy.props.StringProperty(name='Iterable Variable',
                                            description='Variable to use for iterating over the collection',
                                            default='my_scene')
-    """Required if `iterable_expr` is defined.
+    """Required if ``iterable_expr`` is defined.
     
-    If provided, any instance of `iterable_var` in `issue_expr` or `fix_expr`
-    will be replaced with the value of `iterable_expr`.
+    If provided, any instance of ``iterable_var`` in ``issue_expr`` or ``fix_expr``
+    will be replaced with the value of ``iterable_expr``.
     """
     issue_expr: bpy.props.StringProperty(name='Issue',
                                          description='Python expression that returns true if issue exists'
@@ -56,15 +56,15 @@ class LintRule(bpy.types.PropertyGroup):
                                               default='name')
     """Python expression that evaluates to an attribute to be used with the description in the UI.
     
-    If `iterable_var` is used, then `prop_label_expr` is the attribute of each iterable element to be used with the description.
+    If ``iterable_var`` is used, then ``prop_label_expr`` is the attribute of each iterable element to be used with the description.
     
-    For example, "name" with `iterable_var` "bpy.data.objects" means
-    that each object's `name` will be shown in the description).
+    For example, "name" with ``iterable_var`` "bpy.data.objects" means
+    that each object's ``name`` attribute will be shown in the description).
     Otherwise, Python that evaluates it to a string used to label the issue.
     """
 
     def check_for_errors(self) -> list[str]:
-        """Validates `LintRule` properties.
+        """Validates ``LintRule`` properties.
 
         Returns a list of errors to fix to make the LintRule valid.
         """

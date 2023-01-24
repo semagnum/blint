@@ -4,7 +4,7 @@ import bpy
 
 
 def security_check(expression: str):
-    """Checks if there is insecure code, specifically `eval()` and `exec()`, otherwise returns nothing.
+    """Checks if there is insecure code, specifically ``eval()`` and ``exec()``, otherwise returns nothing.
 
     :param expression: Python code in the form of a string.
 

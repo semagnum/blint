@@ -14,7 +14,7 @@ severity_levels = ['ERROR', 'INFO']
 class LintIssue(bpy.types.PropertyGroup):
     """Model class for BLint issue properties. Used for displaying within a UI list.
 
-    BLint issues are instances of `LintRule` violations seen in the Blender file.
+    BLint issues are instances of ``LintRule`` violations seen in the Blender file.
     """
 
     description: bpy.props.StringProperty(name='Description', default='')
