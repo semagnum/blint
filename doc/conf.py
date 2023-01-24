@@ -1,5 +1,6 @@
 import os
 import sys
+
 sys.path.insert(0, os.path.abspath('../..'))
 sys.path.insert(0, os.path.abspath('..'))
 
@@ -20,3 +21,5 @@ html_static_path = ['_static']
 autodoc_default_options = {
     'member-order': 'bysource'
 }
+
+html_favicon = 'favicon.ico'
