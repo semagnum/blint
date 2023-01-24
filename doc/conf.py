@@ -8,7 +8,7 @@ project = 'BLint'
 copyright = '2023, Spencer Magnusson'
 author = 'Spencer Magnusson'
 
-extensions = ['sphinx.ext.autodoc', 'sphinx_autodoc_typehints']
+extensions = ['sphinx.ext.autodoc', 'sphinx_autodoc_typehints', 'sphinx-favicon']
 
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store', 'docs']
@@ -23,3 +23,6 @@ autodoc_default_options = {
 }
 
 html_favicon = '_static/favicon.ico'
+favicons = [
+    {"static-file": "favicon.io"}
+]
