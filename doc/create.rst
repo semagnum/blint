@@ -7,7 +7,7 @@ and reference said file in your add-on preferences.
 Create an empty text file, with the file extension ".json",
 wherever you would like your rules stored.
 
-See LintRules in :doc:`blint.model` for more details on rule attributes and settings.
+See LintRules in :doc:`model` for more details on rule attributes and settings.
 
 Using the form
 ------------------------------------
@@ -51,7 +51,7 @@ Here's an example rule config file:
       ]
     }
 
-Again, refer to LintRules in :doc:`blint.model` for more details.
+Again, refer to LintRules in :doc:`model` for more details.
 
 Rule Creation Tips
 ----------------------

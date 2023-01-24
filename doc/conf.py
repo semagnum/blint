@@ -22,4 +22,4 @@ autodoc_default_options = {
     'member-order': 'bysource'
 }
 
-html_favicon = 'favicon.ico'
+html_favicon = '_static/favicon.ico'
