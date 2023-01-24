@@ -1,4 +1,4 @@
-blint package
+blint root package files
 =============
 
 Preferences
