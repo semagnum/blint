@@ -24,5 +24,5 @@ autodoc_default_options = {
 
 html_favicon = '_static/favicon.ico'
 favicons = [
-    {"static-file": "favicon.io"}
+    {"static-file": "favicon.ico"}
 ]
