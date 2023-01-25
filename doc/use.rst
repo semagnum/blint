@@ -8,8 +8,7 @@ Install
 5. Once the file window closes, the addon list should filter itself to only show BLint
 6. Check the box to enable it.
 
-If an error appears on this step, please report it.
-Learn more [here](/blint/contribute#report-bugs).
+If an error appears on this step, please report `here <https://github.com/semagnum/blint/issues>`_.
 
 Updating to a new version? Do this first!
 ------------------------------------------
@@ -27,7 +26,7 @@ Okay, I installed BLint, where is it?
 
 Go to the Properties editor window and click the "Scene" tab.
 Here you will see the BLint panel. If you do not, it may be an error.
-Learn how you can report it [here](/blint/contribute#report-bugs).
+Please report it `here <https://github.com/semagnum/blint/issues>`_.
 
 Scene panel
 -------------
