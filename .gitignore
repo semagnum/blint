@@ -4,3 +4,5 @@
 _templates/
 build/
 _build/
+
+*.zip
