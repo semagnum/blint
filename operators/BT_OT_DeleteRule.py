@@ -1,12 +1,13 @@
 import bpy
 
-from ..save_load_util import save_external_rules
-from ..pref_util import get_user_preferences
+from .. import get_user_preferences
+from ..config import BT_OT_DELETE_RULE_IDNAME
+from ..save_load import save_external_rules
 
 
 class BT_OT_DeleteRule(bpy.types.Operator):
     """Deletes rule from the preferences."""
-    bl_idname = 'blint.delete_rule'
+    bl_idname = BT_OT_DELETE_RULE_IDNAME
     bl_label = 'Delete Rule'
     bl_description = 'Deletes this rule'
     bl_options = {'REGISTER', 'UNDO'}

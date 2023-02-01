@@ -1,6 +1,6 @@
 import bpy
 
-from ..model.icon_gen import get_icons, format_icon_name
+from ..icon_gen import get_icons, format_icon_name
 
 
 class BT_OT_SelectIcon(bpy.types.Operator):
@@ -17,7 +17,8 @@ class BT_OT_SelectIcon(bpy.types.Operator):
     @classmethod
     def description(cls, context, properties):
         """Uses icon name as part of tooltip."""
-        return 'Select "{}" as the {}'.format(format_icon_name(properties.selected_icon), format_icon_name(properties.attr_name))
+        return 'Select "{}" as the {}'.format(
+            format_icon_name(properties.selected_icon), format_icon_name(properties.attr_name))
 
     def execute(self, context):
         window_manager = context.window_manager

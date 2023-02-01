@@ -1,5 +1,5 @@
 import bpy
-from ..model.icon_gen import bpy_data_enum
+from ..icon_gen import bpy_data_enum
 
 
 class BT_OT_SelectIterator(bpy.types.Operator):

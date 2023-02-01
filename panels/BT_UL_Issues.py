@@ -1,6 +1,6 @@
 import bpy
 
-from ..model.LintIssue import LintIssue, get_sort_value
+from ..model import LintIssue, get_sort_value
 
 
 class BT_UL_Issues(bpy.types.UIList):

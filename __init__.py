@@ -1,25 +1,29 @@
 import bpy
 
-from .panels.BT_UL_Rules import BT_UL_Rules
-from .panels.BT_UL_Issues import BT_UL_Issues
-from .panels.BT_PT_Issues import BT_PT_Issues
+from .pref_access import get_user_preferences
+from .save_load import reload_rules
 
-from .operators.BT_OT_ReloadRules import BT_OT_ReloadRules
-from .operators.BT_OT_FixIssue import BT_OT_FixIssue
-from .operators.BT_OT_SelectIcon import BT_OT_SelectIcon, BT_OT_IconSelection
-from .operators.BT_OT_SelectIterator import BT_OT_SelectIterator
-from .operators.BT_OT_CreateRule import BT_OT_CreateRule
-from .operators.BT_OT_DeleteRule import BT_OT_DeleteRule
+from .model import LintRule
+from .model import LintIssue
 
-from .save_load_util import reload_rules
+from .operators import BT_OT_ReloadRules
+from .operators import BT_OT_FixIssue
+from .operators import BT_OT_SelectIcon
+from .operators import BT_OT_IconSelection
+from .operators import BT_OT_SelectIterator
+from .operators import BT_OT_CreateRule
+from .operators import BT_OT_DeleteRule
+
+from .panels import BT_UL_Rules
+from .panels import BT_UL_Issues
+from .panels import BT_PT_Issues
+
 from .preferences import SA_Preferences
-from .model.LintRule import LintRule
-from .model.LintIssue import LintIssue
 
 bl_info = {
     "name": 'BLint',
     "author": 'Spencer Magnusson',
-    "version": (0, 2, 3),
+    "version": (0, 2, 4),
     "blender": (2, 93, 0),
     "description": 'Custom project linting',
     "location": 'Scene',

@@ -13,7 +13,7 @@ def log(line: str):
     :param line: line to print.
     """
     if line[-1] != '\n':
-        line = line + '\n'
+        line += '\n'
     print('blinter' + line)
 
 

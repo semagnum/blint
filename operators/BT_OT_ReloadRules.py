@@ -1,6 +1,6 @@
 import bpy
 
-from ..save_load_util import reload_rules
+from ..save_load import reload_rules
 
 
 class BT_OT_ReloadRules(bpy.types.Operator):

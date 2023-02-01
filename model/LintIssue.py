@@ -5,10 +5,7 @@ Issues are instances of rule violations seen in the Blender file.
 
 import bpy
 
-from .icon_gen import get_icon_enum, get_severity_enum
-
-severity_levels = ['ERROR', 'INFO']
-"""Accepted severity icons for rules, in the order of priority."""
+from ..icon_gen import get_icon_enum, get_severity_enum, severity_icons
 
 
 class LintIssue(bpy.types.PropertyGroup):
@@ -42,6 +39,6 @@ def get_sort_value(lint_rule: LintIssue) -> int:
     :param lint_rule: LintIssue property
     """
     # if not in the list, put at the end
-    if lint_rule.severity_icon not in severity_levels:
-        return len(severity_levels)
-    return severity_levels.index(lint_rule.severity_icon)
+    if lint_rule.severity_icon not in severity_icons:
+        return len(severity_icons)
+    return severity_icons.index(lint_rule.severity_icon)

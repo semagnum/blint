@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import bpy
 
-from ..operators.BT_OT_DeleteRule import BT_OT_DeleteRule
-from .icon_gen import get_icon_enum, get_severity_enum
+from ..config import BT_OT_DELETE_RULE_IDNAME
+from ..icon_gen import get_icon_enum, get_severity_enum
 
 
 class LintRule(bpy.types.PropertyGroup):
@@ -165,7 +165,7 @@ class LintRule(bpy.types.PropertyGroup):
         sub_row.label(text='', icon=self.severity_icon)
         sub_row.label(text='', icon=self.category_icon)
         sub_row.label(text=self.description)
-        op = sub_row.operator(BT_OT_DeleteRule.bl_idname, text='', icon='X')
+        op = sub_row.operator(BT_OT_DELETE_RULE_IDNAME, text='', icon='X')
         op.rule_index = index
 
     def get_issues(self) -> list[dict]:

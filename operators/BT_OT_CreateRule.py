@@ -1,7 +1,7 @@
 import bpy
 
-from ..save_load_util import save_external_rules
-from ..pref_util import get_user_preferences
+from .. import get_user_preferences
+from ..save_load import save_external_rules
 
 
 class BT_OT_CreateRule(bpy.types.Operator):

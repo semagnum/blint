@@ -15,6 +15,7 @@ allowed_bpy_data = ['actions', 'armatures', 'brushes', 'cache_files', 'cameras',
                     'sounds', 'speakers', 'texts', 'textures', 'volumes', 'window_managers', 'workspaces', 'worlds']
 
 severity_icons = ['ERROR', 'INFO']
+"""Accepted severity icons for rules, in the order of priority."""
 
 
 def format_icon_name(icon: str) -> str:

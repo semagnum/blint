@@ -1,30 +1,16 @@
 import bpy
-from .model.LintRule import LintRule
-from .operators.BT_OT_ReloadRules import BT_OT_ReloadRules
-from .pref_util import get_user_preferences
-from .model.icon_gen import format_icon_name
-from .save_load_util import reload_rules
 
-from .operators.BT_OT_SelectIcon import BT_OT_IconSelection
-from .operators.BT_OT_CreateRule import BT_OT_CreateRule
-from .operators.BT_OT_SelectIterator import BT_OT_SelectIterator
+from ..save_load import reload_rules
 
+from ..icon_gen import format_icon_name
+from ..model import LintRule
 
-def reload_issues(context):
-    """Reload issues"""
-    issues_collection = context.window_manager.lint_issues
-    rules = get_user_preferences(context).lint_rules
-    issues_collection.clear()
-    for r in rules:
-        for issue in r.get_issues():
-            try:
-                new_issue = issues_collection.add()
-                new_issue.description = issue.get('description')
-                new_issue.severity_icon = issue.get('severity_icon')
-                new_issue.category_icon = issue.get('category_icon')
-                new_issue.fix_expr = issue.get('fix_expr')
-            except ValueError as e:
-                print("Error with {}: {}".format(issue.get('description'), e))
+from ..config import PACKAGE_NAME
+
+from ..operators import BT_OT_CreateRule
+from ..operators import BT_OT_IconSelection
+from ..operators import BT_OT_ReloadRules
+from ..operators import BT_OT_SelectIterator
 
 
 def lint_filepath_update(_self, context):
@@ -33,7 +19,7 @@ def lint_filepath_update(_self, context):
 
 class SA_Preferences(bpy.types.AddonPreferences):
     """BLint preferences"""
-    bl_idname = __package__
+    bl_idname = PACKAGE_NAME
 
     lint_rules: bpy.props.CollectionProperty(type=LintRule)
     """BLint rules to be checked in files."""
@@ -63,7 +49,8 @@ class SA_Preferences(bpy.types.AddonPreferences):
             if not wm.form_collapsed:
                 draw_rule_creation(layout, context)
         else:
-            layout.label(text='No external filepath set, create a \".json\" file to create and store your own rules!', icon='INFO')
+            layout.label(text='No external filepath set, create a \".json\" file to create and store your own rules!',
+                         icon='INFO')
 
 
 def draw_rule_creation(layout, context):
@@ -73,22 +60,22 @@ def draw_rule_creation(layout, context):
     :param context: Blender context
     """
 
-    def reload_form_issues(wm):
+    def reload_form_issues(window_manager):
         """Reloads issue debugger.
 
-        :param wm: Blender windows manager
+        :param window_manager: Blender windows manager
         """
-        wm.blint_form_issues.clear()
-        r = wm.blint_form_rule
+        window_manager.blint_form_issues.clear()
+        r = window_manager.blint_form_rule
         for issue in r.get_issues():
             try:
-                new_issue = wm.blint_form_issues.add()
+                new_issue = window_manager.blint_form_issues.add()
                 new_issue.description = issue.get('description')
                 new_issue.severity_icon = issue.get('severity_icon')
                 new_issue.category_icon = issue.get('category_icon')
                 new_issue.fix_expr = issue.get('fix_expr')
-            except ValueError as e:
-                print("Error with {}: {}".format(issue.get('description'), e))
+            except ValueError as ex:
+                print("Error with {}: {}".format(issue.get('description'), ex))
 
     wm = context.window_manager
 

@@ -1,18 +1,8 @@
-"""Utility functions used in multiple files for importing and managing lint rules"""
-
 import bpy
+import json
 
-
-def security_check(expression: str):
-    """Checks if there is insecure code, specifically ``eval()`` and ``exec()``, otherwise returns nothing.
-
-    :param expression: Python code in the form of a string.
-
-    :raise ValueError: if expression contains insecure code.
-
-    """
-    if 'eval(' in expression or 'exec(' in expression:
-        raise ValueError('Expression contains insecure code: {}'.format(expression))
+from .security import security_check
+from .. import get_user_preferences
 
 
 def import_lint_rules(lint_rules: list[dict], rule_properties: bpy.props.CollectionProperty,
@@ -48,3 +38,38 @@ def import_lint_rules(lint_rules: list[dict], rule_properties: bpy.props.Collect
         new_rule.iterable_var = rule.get('iterable_var', '')
         new_rule.iterable_expr = rule.get('iterable_expr', '')
         new_rule.is_internal = is_internal
+
+
+def save_external_rules(context):
+    """Saves rules to external JSON file.
+
+    :param context: Blender's context
+    """
+    preferences = get_user_preferences(context)
+    lint_collection = get_user_preferences(context).lint_rules
+
+    filepath = preferences.lint_filepath
+
+    external_rules = []
+
+    for rule in lint_collection.values():
+        if rule.is_internal:
+            continue
+        new_rule = {
+            'description': rule.description,
+            'enabled': rule.enabled,
+            'severity_icon': rule.severity_icon,
+            'category_icon': rule.category_icon,
+            'issue_expr': rule.issue_expr,
+            'prop_label_expr': rule.prop_label_expr,
+        }
+        if rule.fix_expr:
+            new_rule['fix_expr'] = rule.fix_expr
+        if rule.iterable_expr:
+            new_rule['iterable_expr'] = rule.iterable_expr
+            new_rule['iterable_var'] = rule.iterable_var
+        external_rules.append(new_rule)
+
+    real_path = bpy.path.abspath(filepath)
+    with open(real_path, 'w') as f:
+        json.dump({'rules': external_rules}, f, indent=4)

@@ -1,6 +1,6 @@
 import bpy
 
-from ..preferences import reload_issues
+from ..save_load import reload_issues
 
 
 class BT_PT_Issues(bpy.types.Panel):

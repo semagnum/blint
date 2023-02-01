@@ -1,7 +1,7 @@
 import bpy
 
-from ..model.LintRule import LintRule
-from ..model.LintIssue import get_sort_value
+from ..model import LintRule
+from ..model import get_sort_value
 
 
 class BT_UL_Rules(bpy.types.UIList):

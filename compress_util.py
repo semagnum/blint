@@ -2,13 +2,22 @@ import os
 import zipfile
 import re
 
-allowed_file_extensions = {'.py', '.json', '.md'}
+allowed_file_extensions = {'.py', '.json', '.md', 'LICENSE'}
+exclude_folders = {'doc', 'venv', '.git', '.idea'}
 
 
 def zipdir(path, ziph: zipfile.ZipFile, zip_subdir_name):
     for root, dirs, files in os.walk(path):
+        root_path = str(root)
+        if any(root_path.__contains__(folder_name) for folder_name in exclude_folders):
+            continue
+
         for file in files:
+            if str(file).startswith('.'):
+                continue
+
             if any(file.endswith(ext) for ext in allowed_file_extensions):
+                print(root, file)
                 orig_hier = os.path.join(root, file)
                 arc_hier = os.path.join(zip_subdir_name, orig_hier)
                 ziph.write(orig_hier, arc_hier)
