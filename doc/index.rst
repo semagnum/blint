@@ -46,6 +46,8 @@ Python Docs
    operators
    panels
    model
+   preferences
+   save_load
    offline
    blint
 
