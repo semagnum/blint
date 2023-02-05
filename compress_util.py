@@ -17,7 +17,6 @@ def zipdir(path, ziph: zipfile.ZipFile, zip_subdir_name):
                 continue
 
             if any(file.endswith(ext) for ext in allowed_file_extensions):
-                print(root, file)
                 orig_hier = os.path.join(root, file)
                 arc_hier = os.path.join(zip_subdir_name, orig_hier)
                 ziph.write(orig_hier, arc_hier)
