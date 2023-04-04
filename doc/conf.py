@@ -8,7 +8,7 @@ project = 'BLint'
 copyright = '2023, Spencer Magnusson'
 author = 'Spencer Magnusson'
 
-extensions = ['sphinx.ext.autodoc', 'sphinx_autodoc_typehints', 'sphinx-favicon']
+extensions = ['sphinx.ext.autodoc', 'sphinx_autodoc_typehints', 'sphinx_favicon']
 
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store', 'docs']
