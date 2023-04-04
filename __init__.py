@@ -38,7 +38,7 @@ from .preferences import SA_Preferences
 bl_info = {
     "name": 'BLint',
     "author": 'Spencer Magnusson',
-    "version": (0, 2, 4),
+    "version": (0, 2, 5),
     "blender": (2, 93, 0),
     "description": 'Custom project linting',
     "location": 'Scene',
