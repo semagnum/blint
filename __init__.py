@@ -36,14 +36,16 @@ from .panels import BT_PT_Issues
 from .preferences import SA_Preferences
 
 bl_info = {
-    "name": 'BLint',
-    "author": 'Spencer Magnusson',
-    "version": (0, 2, 5),
-    "blender": (2, 93, 0),
-    "description": 'Custom project linting',
-    "location": 'Scene',
-    "support": 'COMMUNITY',
-    "category_icon": 'Scene'
+    'name': 'BLint',
+    'author': 'Spencer Magnusson',
+    'version': (0, 2, 6),
+    'blender': (2, 93, 0),
+    'description': 'Custom project linting',
+    'location': 'Scene',
+    'support': 'COMMUNITY',
+    'category_icon': 'Scene',
+    'doc_url': 'https://semagnum.github.io/blint/',
+    'tracker_url': 'https://github.com/semagnum/blint/issues',
 }
 prop_groups = [LintIssue, LintRule, SA_Preferences]
 operators_panels = [BT_OT_SelectIterator, BT_OT_SelectIcon, BT_OT_IconSelection, BT_OT_CreateRule, BT_OT_DeleteRule,
