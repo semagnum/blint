@@ -22,7 +22,7 @@ from .model import LintRule
 from .model import LintIssue
 
 from .operators import BT_OT_ReloadRules
-from .operators import BT_OT_FixIssue
+from .operators import BT_OT_FixIssue, BT_OT_FixIssueAll
 from .operators import BT_OT_SelectIcon
 from .operators import BT_OT_IconSelection
 from .operators import BT_OT_SelectIterator
@@ -38,7 +38,7 @@ from .preferences import SA_Preferences
 bl_info = {
     'name': 'BLint',
     'author': 'Spencer Magnusson',
-    'version': (0, 2, 6),
+    'version': (0, 3, 0),
     'blender': (2, 93, 0),
     'description': 'Custom project linting',
     'location': 'Scene',
@@ -50,7 +50,7 @@ bl_info = {
 prop_groups = [LintIssue, LintRule, SA_Preferences]
 operators_panels = [BT_OT_SelectIterator, BT_OT_SelectIcon, BT_OT_IconSelection, BT_OT_CreateRule, BT_OT_DeleteRule,
                     BT_UL_Rules, BT_UL_Issues,
-                    BT_OT_ReloadRules, BT_OT_FixIssue,
+                    BT_OT_ReloadRules, BT_OT_FixIssue, BT_OT_FixIssueAll,
                     BT_PT_Issues]
 
 classes = prop_groups + operators_panels

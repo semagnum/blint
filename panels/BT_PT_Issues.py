@@ -16,6 +16,7 @@
 import bpy
 
 from ..save_load import reload_issues
+from ..operators import BT_OT_FixIssue, BT_OT_FixIssueAll
 
 
 class BT_PT_Issues(bpy.types.Panel):
@@ -34,3 +35,11 @@ class BT_PT_Issues(bpy.types.Panel):
         layout.template_list('BT_UL_Issues', '',
                              window_manager, 'lint_issues',
                              window_manager, 'lint_issue_active', columns=4)
+
+        idx = window_manager.lint_issue_active
+        if not window_manager.lint_issues[idx].fix_expr:
+            layout.label(text='No fix defined for this issue')
+
+        row = layout.row()
+        row.operator(BT_OT_FixIssue.bl_idname, text='Fix selected')
+        row.operator(BT_OT_FixIssueAll.bl_idname, text='Fix all')

@@ -43,16 +43,13 @@ def print_issues(issue_iter: list['LintIssue'], issue_order: tuple):
         log('{}\t{}'.format(issue.severity_icon, issue.description))
 
 
-def fix_issues(issue_iter, issue_order):
+def fix_issues(issue_iter):
     """Runs fixes on each issue that has a fix option.
 
     :param issue_iter: list of issues
-    :param issue_order: indices determining order to print issue
     """
     orig_num_issues = len(issue_iter)
-    for idx, _, _ in issue_order:
-        issue = issues[idx]
-        bpy.ops.scene_analyzer.fix_issue(fix=issue.fix_expr)
+    bpy.ops.scene_analyzer.fix_issue_all()
     reload_issues(context)
     curr_issues = window_manager.lint_issues
     curr_num_issues = len(curr_issues)
@@ -92,12 +89,13 @@ if __name__ == '__main__':
             print_issues(issues, issue_sort_vals)
 
             num_fixable = len([True for issue in issues if issue.fix_expr])
-            if auto_fix:
-                log('Fixing {} of {} issues...'.format(num_fixable, len(issues)))
-                fix_issues(issues, issue_sort_vals)
-                reload_issues(context)
-            elif num_fixable > 0:
-                log('{} of {} issues can be automatically fixed'.format(num_fixable, len(issues)))
+            if num_fixable > 0:
+                if auto_fix:
+                    log('Fixing {} of {} issues...'.format(num_fixable, len(issues)))
+                    fix_issues(issues)
+                    reload_issues(context)
+                else:
+                    log('{} of {} issues can be automatically fixed'.format(num_fixable, len(issues)))
 
     except Exception as e:
         log(str(e))

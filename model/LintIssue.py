@@ -41,11 +41,10 @@ class LintIssue(bpy.types.PropertyGroup):
     def draw(self, layout):
         """Draws the issue in a panel."""
         row = layout.row(align=True)
+        row.active = bool(self.fix_expr)
         row.label(text='', icon=self.severity_icon)
         row.label(text='', icon=self.category_icon)
         row.label(text=self.description)
-        if self.fix_expr:
-            row.operator('scene_analyzer.fix_issue', text='', icon='FILE_TICK').fix = self.fix_expr
 
 
 def get_sort_value(lint_rule: LintIssue) -> int:
