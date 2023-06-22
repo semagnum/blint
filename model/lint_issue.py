@@ -47,12 +47,12 @@ class LintIssue(bpy.types.PropertyGroup):
         row.label(text=self.description)
 
 
-def get_sort_value(lint_rule: LintIssue) -> int:
+def get_sort_value(issue: LintIssue) -> int:
     """Utility function generating a sort value for an issue based on its rule's severity.
 
-    :param lint_rule: LintIssue property
+    :param issue: LintIssue property
     """
     # if not in the list, put at the end
-    if lint_rule.severity_icon not in severity_icons:
+    if issue.severity_icon not in severity_icons:
         return len(severity_icons)
-    return severity_icons.index(lint_rule.severity_icon)
+    return severity_icons.index(issue.severity_icon)
