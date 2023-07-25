@@ -1,6 +1,26 @@
 """Data and utility classes used by BLint."""
 
-from .LintIssue import LintIssue
-from .LintIssue import get_sort_value
+if 'bpy' in locals():
+    import importlib
 
-from .LintRule import LintRule
+    reloadable_modules = [
+        'lint_issue',
+        'lint_rule',
+    ]
+    for module_name in reloadable_modules:
+        if module_name in locals():
+            importlib.reload(locals()[module_name])
+
+import bpy
+
+from . import lint_issue, lint_rule
+
+from .lint_issue import LintIssue, get_sort_value
+from .lint_rule import LintRule
+
+_registration_order = [
+    LintIssue,
+    LintRule
+]
+
+register, unregister = bpy.utils.register_classes_factory(_registration_order)

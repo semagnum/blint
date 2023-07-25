@@ -36,6 +36,11 @@ class BT_PT_Issues(bpy.types.Panel):
                              window_manager, 'lint_issues',
                              window_manager, 'lint_issue_active', columns=4)
 
+        if window_manager.lint_issue_active < 0:
+            window_manager.lint_issue_active = 0
+        elif window_manager.lint_issue_active >= len(window_manager.lint_issues):
+            window_manager.lint_issue_active = len(window_manager.lint_issues) - 1
+
         idx = window_manager.lint_issue_active
         if not window_manager.lint_issues[idx].fix_expr:
             layout.label(text='No fix defined for this issue')

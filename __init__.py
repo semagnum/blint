@@ -12,28 +12,26 @@
 #     You should have received a copy of the GNU General Public License
 #     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+if 'bpy' in locals():
+    import importlib
+    reloadable_modules = [
+        'config',
+        'pref_access',
+        'save_load',
+        'model',
+        'operators',
+        'panels',
+        'preferences',
+    ]
+    for module_name in reloadable_modules:
+        if module_name in locals():
+            importlib.reload(locals()[module_name])
 
 import bpy
 
+from . import config, pref_access
 from .pref_access import get_user_preferences
-from .save_load import reload_rules
-
-from .model import LintRule
-from .model import LintIssue
-
-from .operators import BT_OT_ReloadRules
-from .operators import BT_OT_FixIssue, BT_OT_FixIssueAll
-from .operators import BT_OT_SelectIcon
-from .operators import BT_OT_IconSelection
-from .operators import BT_OT_SelectIterator
-from .operators import BT_OT_CreateRule
-from .operators import BT_OT_DeleteRule
-
-from .panels import BT_UL_Rules
-from .panels import BT_UL_Issues
-from .panels import BT_PT_Issues
-
-from .preferences import SA_Preferences
+from . import save_load, model, operators, panels, preferences
 
 bl_info = {
     'name': 'BLint',
@@ -47,22 +45,15 @@ bl_info = {
     'doc_url': 'https://semagnum.github.io/blint/',
     'tracker_url': 'https://github.com/semagnum/blint/issues',
 }
-prop_groups = [LintIssue, LintRule, SA_Preferences]
-operators_panels = [BT_OT_SelectIterator, BT_OT_SelectIcon, BT_OT_IconSelection, BT_OT_CreateRule, BT_OT_DeleteRule,
-                    BT_UL_Rules, BT_UL_Issues,
-                    BT_OT_ReloadRules, BT_OT_FixIssue, BT_OT_FixIssueAll,
-                    BT_PT_Issues]
-
-classes = prop_groups + operators_panels
 
 properties = [
     ('lint_rule_active', bpy.props.IntProperty(default=0)),
     ('lint_issue_active', bpy.props.IntProperty(default=0)),
-    ('lint_issues', bpy.props.CollectionProperty(type=LintIssue)),
+    ('lint_issues', bpy.props.CollectionProperty(type=model.LintIssue)),
     # form creator
-    ('blint_form_rule', bpy.props.PointerProperty(type=LintRule)),
+    ('blint_form_rule', bpy.props.PointerProperty(type=model.LintRule)),
     ('blint_form_issue_active', bpy.props.IntProperty(default=0)),
-    ('blint_form_issues', bpy.props.CollectionProperty(type=LintIssue)),
+    ('blint_form_issues', bpy.props.CollectionProperty(type=model.LintIssue)),
     ('form_collapsed', bpy.props.BoolProperty(name='Create Rules', default=True))
 ]
 
@@ -70,18 +61,22 @@ properties = [
 def register():
     window_manager = bpy.types.WindowManager
 
-    for cls in classes:
-        bpy.utils.register_class(cls)
+    model.register()
+    preferences.register()
+    operators.register()
+    panels.register()
 
     for name, prop in properties:
         setattr(window_manager, name, prop)
 
-    reload_rules(bpy.context)
+    save_load.reload_rules(bpy.context)
 
 
 def unregister():
-    for cls in classes[::-1]:
-        bpy.utils.unregister_class(cls)
+    panels.unregister()
+    operators.unregister()
+    preferences.unregister()
+    model.unregister()
 
 
 if __name__ == '__main__':

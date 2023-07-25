@@ -22,10 +22,12 @@ from ..model import LintRule
 
 from ..config import PACKAGE_NAME
 
-from ..operators import BT_OT_CreateRule
-from ..operators import BT_OT_IconSelection
-from ..operators import BT_OT_ReloadRules
-from ..operators import BT_OT_SelectIterator
+from ..operators import (
+    BT_OT_CreateRule,
+    BT_OT_IconSelection,
+    BT_OT_ReloadRules,
+    BT_OT_SelectIterator
+)
 
 
 def lint_filepath_update(_self, context):
