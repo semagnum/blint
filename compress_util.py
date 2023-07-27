@@ -54,4 +54,4 @@ def zip_main(addon_name):
 
 
 if __name__ == '__main__':
-    zip_main('BLint')
+    zip_main('blint')
