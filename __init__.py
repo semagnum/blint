@@ -37,7 +37,7 @@ bl_info = {
     'name': 'BLint',
     'author': 'Spencer Magnusson',
     'version': (1, 0, 0),
-    'blender': (2, 93, 0),
+    'blender': (3, 6, 0),
     'description': 'Custom project linting',
     'location': 'Scene',
     'support': 'COMMUNITY',
