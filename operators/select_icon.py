@@ -16,6 +16,7 @@
 import bpy
 
 from ..icon_gen import get_icons, format_icon_name
+from ..pref_access import get_user_preferences
 
 
 class BT_OT_SelectIcon(bpy.types.Operator):
@@ -36,8 +37,16 @@ class BT_OT_SelectIcon(bpy.types.Operator):
             format_icon_name(properties.selected_icon), format_icon_name(properties.attr_name))
 
     def execute(self, context):
-        window_manager = context.window_manager
-        form_rule = window_manager.blint_form_rule
+        addon_preferences = get_user_preferences(context)
+        lint_rules = addon_preferences.lint_rules
+
+        rule_index = context.window_manager.lint_rule_active
+
+        if rule_index < 0 or rule_index >= len(lint_rules):
+            self.report({'ERROR'}, 'Invalid rule specified')
+            return {'CANCELLED'}
+
+        form_rule = lint_rules[rule_index]
         try:
             setattr(form_rule, self.attr_name, self.selected_icon)
         except Exception as e:
@@ -60,9 +69,18 @@ class BT_OT_IconSelection(bpy.types.Operator):
 
     def draw(self, context):
         layout = self.layout
-        wm = context.window_manager
 
-        curr_selected_icon = getattr(wm.blint_form_rule, self.attr_name)
+        addon_preferences = get_user_preferences(context)
+        lint_rules = addon_preferences.lint_rules
+
+        rule_index = context.window_manager.lint_rule_active
+
+        if rule_index < 0 or rule_index >= len(lint_rules):
+            self.report({'ERROR'}, 'Invalid rule specified')
+            return
+
+        form_rule = lint_rules[rule_index]
+        curr_selected_icon = getattr(form_rule, self.attr_name)
 
         layout.prop(self, 'attr_filter', text='Search and press Enter')
         layout.label(text='Selected icon: {}'.format(format_icon_name(curr_selected_icon)),

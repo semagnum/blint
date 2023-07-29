@@ -15,19 +15,36 @@
 
 import bpy
 import json
+import os
 
 from .security import security_check
 from .. import get_user_preferences
 
 
+def get_config_filepath(context):
+    """Gets the currently set rule config file."""
+    preferences = get_user_preferences(context)
+    if preferences.config_type == 'INTERNAL':
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        config_filepath = os.path.join(dir_path, '../config.json')
+    else:
+        config_filepath = bpy.path.abspath(preferences.lint_filepath)
+
+    return config_filepath
+
+
+def does_config_exist(context):
+    """Checks if rule config file is set and exists as a file."""
+    return os.path.isfile(get_config_filepath(context))
+
+
 def import_lint_rules(lint_rules: list[dict], rule_properties: bpy.props.CollectionProperty,
-                      existing_rules: dict[str] = None, is_internal: bool = False):
+                      existing_rules: dict[str] = None,):
     """Adds a list of rules to a bpy collection of LintRule items.
 
     :param lint_rules: lint rules to import.
     :param rule_properties: LintRule property collection.
     :param existing_rules: dict of existing rule names, to prevent duplicate additions.
-    :param is_internal: shows whether the rules to be imported are from BLint or an external JSON file. Filters what rules are saved to external files.
 
     """
     if existing_rules is None:
@@ -52,7 +69,6 @@ def import_lint_rules(lint_rules: list[dict], rule_properties: bpy.props.Collect
         new_rule.prop_label_expr = rule.get('prop_label_expr', '')
         new_rule.iterable_var = rule.get('iterable_var', '')
         new_rule.iterable_expr = rule.get('iterable_expr', '')
-        new_rule.is_internal = is_internal
 
 
 def save_external_rules(context):
@@ -60,16 +76,13 @@ def save_external_rules(context):
 
     :param context: Blender's context
     """
-    preferences = get_user_preferences(context)
     lint_collection = get_user_preferences(context).lint_rules
 
-    filepath = preferences.lint_filepath
+    filepath = get_config_filepath(context)
 
     external_rules = []
 
     for rule in lint_collection.values():
-        if rule.is_internal:
-            continue
         new_rule = {
             'description': rule.description,
             'enabled': rule.enabled,
@@ -85,6 +98,5 @@ def save_external_rules(context):
             new_rule['iterable_var'] = rule.iterable_var
         external_rules.append(new_rule)
 
-    real_path = bpy.path.abspath(filepath)
-    with open(real_path, 'w') as f:
+    with open(filepath, 'w') as f:
         json.dump({'rules': external_rules}, f, indent=4)

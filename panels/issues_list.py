@@ -59,7 +59,8 @@ class BT_UL_Issues(bpy.types.UIList):
 
         for idx in range(len(flt_flags)):
             issue: LintIssue = issues[idx]
-            if ((self.is_fixable and len(issue.fix_expr) == 0)
+            if (
+                    (self.is_fixable and len(issue.fix_expr) == 0)
                     or (self.is_error and issue.severity_icon != 'ERROR')
             ):
                 flt_flags[idx] = 0

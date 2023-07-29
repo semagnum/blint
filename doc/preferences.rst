@@ -1,5 +1,5 @@
 Preferences
 -----------
 
-.. autoclass:: blint.preferences.SA_Preferences
+.. autoclass:: blint.preferences.preferences.SA_Preferences
     :members:
