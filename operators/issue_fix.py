@@ -29,6 +29,7 @@ class BT_OT_FixIssue(bpy.types.Operator):
         idx = wm.lint_issue_active
         return 0 <= idx < len(wm.lint_issues) and wm.lint_issues[idx].fix_expr
 
+    # noinspection PyMethodMayBeStatic
     def execute(self, context):
         wm = context.window_manager
         idx = wm.lint_issue_active
@@ -36,6 +37,28 @@ class BT_OT_FixIssue(bpy.types.Operator):
         print('Running:', fix)
         exec(fix)
         return {'FINISHED'}
+
+
+class BT_OT_DebugFixIssue(bpy.types.Operator):
+    """Runs a given BLint fix on the scene."""
+    bl_idname = 'scene_analyzer.fix_issue_debug'
+    bl_label = 'Fix issue'
+    bl_description = 'Fix selected issue'
+    bl_options = {'REGISTER', 'UNDO'}
+
+    @classmethod
+    def poll(cls, context):
+        wm = context.window_manager
+        idx = wm.blint_form_issue_active
+        return 0 <= idx < len(wm.blint_form_issues) and wm.blint_form_issues[idx].fix_expr
+
+    def execute(self, context):
+        wm = context.window_manager
+        idx = wm.blint_form_issue_active
+        fix = wm.blint_form_issues[idx].fix_expr
+        exec(fix)
+        return {'FINISHED'}
+
 
 class BT_OT_FixIssueAll(bpy.types.Operator):
     """Runs a given BLint fix on the scene."""

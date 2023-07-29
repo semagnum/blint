@@ -24,13 +24,17 @@ from ..config import PACKAGE_NAME
 
 from ..operators import (
     BT_OT_CreateRule,
+    BT_OT_DeleteRule,
     BT_OT_IconSelection,
+    BT_OT_DebugFixIssue,
     BT_OT_ReloadRules,
+    BT_OT_SaveRules,
     BT_OT_SelectIterator
 )
 
 
 def lint_filepath_update(_self, context):
+    context.window_manager.lint_rule_active = 0
     reload_rules(context)
 
 
@@ -41,7 +45,14 @@ class SA_Preferences(bpy.types.AddonPreferences):
     lint_rules: bpy.props.CollectionProperty(type=LintRule)
     """BLint rules to be checked in files."""
 
-    lint_filepath: bpy.props.StringProperty(name='External lint rules filepath', default='',
+    config_type: bpy.props.EnumProperty(name='Rule source', update=lint_filepath_update, default='INTERNAL', items=[
+        ('INTERNAL', 'Internal', 'Internal BLint rules included with the add-on'),
+        ('EXTERNAL', 'External', 'External JSON file')
+    ])
+
+    lint_filepath: bpy.props.StringProperty(name='External rule file',
+                                            description='External JSON file containing rules',
+                                            default='',
                                             subtype='FILE_PATH', update=lint_filepath_update)
     """Path to external JSON file containing BLint rules."""
 
@@ -50,32 +61,50 @@ class SA_Preferences(bpy.types.AddonPreferences):
         layout = self.layout
         wm = context.window_manager
 
-        layout.label(text='Rules')
-        layout.template_list('BT_UL_Rules', '', self, 'lint_rules', context.window_manager, 'lint_rule_active',
-                             columns=3)
+        row = layout.row()
+        row.label(text='Rule Source:')
+        row.prop(self, 'config_type', expand=True)
+        row = layout.row()
+        row.active = self.config_type == 'EXTERNAL'
+        row.prop(self, 'lint_filepath')
+        row = layout.row(align=True)
+        row.operator(BT_OT_ReloadRules.bl_idname, icon='FILE_REFRESH')
+        row.operator(BT_OT_SaveRules.bl_idname, icon='FILE_TICK')
 
         layout.separator()
-        layout.prop(self, "lint_filepath")
-        layout.operator(BT_OT_ReloadRules.bl_idname, icon='FILE_REFRESH')
 
-        if self.lint_filepath:
-            layout.separator()
-            layout.prop(context.window_manager, "form_collapsed",
-                        icon='TRIA_RIGHT' if wm.form_collapsed else 'TRIA_DOWN',
-                        invert_checkbox=True)
-            if not wm.form_collapsed:
-                draw_rule_creation(layout, context)
-        else:
-            layout.label(text='No external filepath set, create a \".json\" file to create and store your own rules!',
-                         icon='INFO')
+        row = layout.row()
+        row.template_list('BT_UL_Rules', '', self, 'lint_rules', context.window_manager, 'lint_rule_active', columns=3)
+        col = row.column(align=True)
+        col.operator(BT_OT_CreateRule.bl_idname, icon='ADD', text='')
+        col.operator(BT_OT_DeleteRule.bl_idname, icon='REMOVE', text='')
+
+        layout.separator()
+        layout.prop(context.window_manager, "form_collapsed",
+                    icon='TRIA_RIGHT' if wm.form_collapsed else 'TRIA_DOWN',
+                    invert_checkbox=True)
+        if not wm.form_collapsed:
+            draw_rule_creation(layout, context, self)
 
 
-def draw_rule_creation(layout, context):
+def draw_rule_creation(layout, context, preferences):
     """Draws rule creation form.
 
     :param layout: Blender UILayout
     :param context: Blender context
+    :param preferences: Blender preferences
     """
+
+    wm = context.window_manager
+
+    rule_index = wm.lint_rule_active
+    lint_rules = preferences.lint_rules
+
+    if rule_index < 0 or rule_index >= len(lint_rules):
+        layout.label(text='No rule selected')
+        return
+
+    form_rule: LintRule = lint_rules[rule_index]
 
     def reload_form_issues(window_manager):
         """Reloads issue debugger.
@@ -83,8 +112,7 @@ def draw_rule_creation(layout, context):
         :param window_manager: Blender windows manager
         """
         window_manager.blint_form_issues.clear()
-        r = window_manager.blint_form_rule
-        for issue in r.get_issues():
+        for issue in form_rule.get_issues():
             try:
                 new_issue = window_manager.blint_form_issues.add()
                 new_issue.description = issue.get('description')
@@ -92,57 +120,55 @@ def draw_rule_creation(layout, context):
                 new_issue.category_icon = issue.get('category_icon')
                 new_issue.fix_expr = issue.get('fix_expr')
             except ValueError as ex:
-                print("Error with {}: {}".format(issue.get('description'), ex))
-
-    wm = context.window_manager
-
-    form_rule: LintRule = wm.blint_form_rule
-    layout.prop(form_rule, 'enabled', text='Enabled by default?')
-    layout.prop(form_rule, 'description')
-
-    layout.label(text='Icons')
-    icon_box = layout.box()
-    icon_box.prop(form_rule, 'severity_icon')
-
-    row = icon_box.row()
-    row.label(text='Category: {}'.format(format_icon_name(form_rule.category_icon)), icon=form_rule.category_icon)
-    op = row.operator(BT_OT_IconSelection.bl_idname, text='Select category icon', icon='IMAGE_DATA')
-    op.attr_name = 'category_icon'
-
-    row = layout.row(align=True)
-    row.label(text='For each data item in')
-    row.prop(form_rule, 'iterable_expr', text='')
-    row.operator(BT_OT_SelectIterator.bl_idname, icon='FILE_BLEND')
-
-    box = layout.box()
-    box.prop(form_rule, 'prop_label_expr')
-
-    box.separator()
-
-    box.prop(form_rule, 'iterable_var', text='Variable name')
-    box.prop(form_rule, 'issue_expr', text='An issue exists if')
-    box.prop(form_rule, 'fix_expr', text='Issue fix (optional)')
+                raise ValueError("Error with {}: {}".format(issue.get('description'), ex))
 
     validation_errs = form_rule.check_for_errors()
     is_valid = len(validation_errs) == 0
     if is_valid:
         layout.label(text='Validation passed', icon='CHECKMARK')
-
-        try:
-            reload_form_issues(wm)
-
-            layout.label(text='Debug')
-            layout.template_list('BT_UL_Issues', '', wm, 'blint_form_issues', wm, 'blint_form_issue_active',
-                                 columns=4)
-        except Exception as e:
-            print(e)
-            layout.label(text='Issue debugging failed, check console', icon='ERROR')
     else:
         layout.label(text='Validation failed', icon='ERROR')
+        error_box = layout.box()
+        error_box.alert = True
         for err in validation_errs:
-            layout.label(text=err)
+            error_box.label(text=err, icon='DOT')
 
-    # Create rule
+    layout.separator()
+
+    layout.prop(form_rule, 'description')
+    layout.prop(form_rule, 'prop_label_expr', text='Issue identifier (optional)')
+    layout.prop(form_rule, 'issue_expr', text='An issue exists if')
+    layout.prop(form_rule, 'fix_expr', text='Issue fix (optional)')
+
+    layout.separator()
+
+    layout.prop(form_rule, 'severity_icon', text='Severity Icon')
     row = layout.row()
-    row.operator(BT_OT_CreateRule.bl_idname, icon='TEXT')
-    row.enabled = is_valid
+    row.label(text='Category icon:')
+    row.label(text=format_icon_name(form_rule.category_icon), icon=form_rule.category_icon)
+    op = row.operator(BT_OT_IconSelection.bl_idname, text='Select Category Icon', icon='IMAGE_DATA')
+    op.attr_name = 'category_icon'
+
+    layout.separator()
+
+    layout.label(text='Data Iteration (optional):')
+    row = layout.row()
+    row.label(text='Data type:')
+    row.prop(form_rule, 'iterable_expr', text='')
+    row.operator(BT_OT_SelectIterator.bl_idname, icon='FILE_BLEND')
+    layout.prop(form_rule, 'iterable_var')
+
+    layout.separator()
+
+    col = layout.column()
+    col.active = is_valid
+
+    try:
+        reload_form_issues(wm)
+
+        col.label(text='Debug Issues:')
+        col.template_list('BT_UL_Issues', '', wm, 'blint_form_issues', wm, 'blint_form_issue_active', columns=4)
+        col.operator(BT_OT_DebugFixIssue.bl_idname, text='Fix selected')
+    except Exception as e:
+        print(e)
+        layout.label(text='Issue debugging failed, check console', icon='ERROR')

@@ -50,11 +50,9 @@ properties = [
     ('lint_rule_active', bpy.props.IntProperty(default=0)),
     ('lint_issue_active', bpy.props.IntProperty(default=0)),
     ('lint_issues', bpy.props.CollectionProperty(type=model.LintIssue)),
-    # form creator
-    ('blint_form_rule', bpy.props.PointerProperty(type=model.LintRule)),
     ('blint_form_issue_active', bpy.props.IntProperty(default=0)),
     ('blint_form_issues', bpy.props.CollectionProperty(type=model.LintIssue)),
-    ('form_collapsed', bpy.props.BoolProperty(name='Create Rules', default=True))
+    ('form_collapsed', bpy.props.BoolProperty(name='Edit Selected Rule', default=True))
 ]
 
 
@@ -68,8 +66,6 @@ def register():
 
     for name, prop in properties:
         setattr(window_manager, name, prop)
-
-    save_load.reload_rules(bpy.context)
 
 
 def unregister():

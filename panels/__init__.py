@@ -24,4 +24,5 @@ _registration_order = [
     issues_panel.BT_PT_Issues,
 ]
 
-register, unregister = bpy.utils.register_classes_factory(_registration_order)
+if len(bpy.utils.register_classes_factory(_registration_order)) != 0:
+    register, unregister = bpy.utils.register_classes_factory(_registration_order)

@@ -65,7 +65,7 @@ if __name__ == '__main__':
     # get lint rules from preferences
     blend_filename = bpy.data.filepath
     try:
-        from blint.model.LintIssue import get_sort_value
+        from blint.model.lint_issue import get_sort_value
         from blint.save_load import reload_issues
     except ImportError:
         log('blint not found, the blint addon must be installed and enabled!')

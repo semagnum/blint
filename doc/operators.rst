@@ -1,38 +1,41 @@
 BLint operators
 =======================
 
-BT\_OT\_CreateRule
+BT\_OT\_ContextRule
 -----------------------------------------
 
-.. automodule:: blint.operators.BT_OT_CreateRule
+.. automodule:: blint.operators.rule_context
    :members:
 
-BT\_OT\_DeleteRule
+Adding a new Rule
 -----------------------------------------
 
-.. automodule:: blint.operators.BT_OT_DeleteRule
+.. automodule:: blint.operators.rule_create
    :members:
 
-BT\_OT\_FixIssue
+Deleting a Selected Rule
+-----------------------------------------
+
+.. automodule:: blint.operators.rule_delete
+   :members:
+
+Fixing an Issue
 ---------------------------------------
 
-.. automodule:: blint.operators.BT_OT_FixIssue
+.. automodule:: blint.operators.issue_fix
    :members:
 
-BT\_OT\_ReloadRules
+Reloading From and Saving To Disk
 ------------------------------------------
 
-.. automodule:: blint.operators.BT_OT_ReloadRules
+.. automodule:: blint.operators.rule_reload
    :members:
 
-BT\_OT\_SelectIcon
+Icon Selection
 -----------------------------------------
 
-.. automodule:: blint.operators.BT_OT_SelectIcon
+.. automodule:: blint.operators.select_icon
    :members:
 
-BT\_OT\_SelectIterator
----------------------------------------------
-
-.. automodule:: blint.operators.BT_OT_SelectIterator
+.. automodule:: blint.operators.select_iterator
    :members:

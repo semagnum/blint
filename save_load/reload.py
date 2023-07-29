@@ -13,11 +13,10 @@
 #     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-import bpy
 import json
 
 from .. import get_user_preferences
-from .save_load_util import import_lint_rules
+from .save_load_util import import_lint_rules, get_config_filepath
 
 
 def reload_issues(context):
@@ -38,30 +37,21 @@ def reload_issues(context):
 
 
 def reload_rules(context):
-    """Reloads rules from BLint's and external JSON file, if exists.
+    """Reloads rules from BLint's config file, if exists.
 
     :param context: Blender's context
     """
-    preferences = get_user_preferences(context)
     lint_collection = get_user_preferences(context).lint_rules
-
-    import os
-    dir_path = os.path.dirname(os.path.realpath(__file__))
 
     existing_rules = {rule.description: rule.enabled for rule in lint_collection.values()}
 
     lint_collection.clear()
 
-    try:
-        with open(os.path.join(dir_path, '../config.json'), 'r') as f:
-            lint_rules = json.load(f)
-            import_lint_rules(lint_rules.get('rules', []), lint_collection, existing_rules, is_internal=True)
-    except FileNotFoundError:
-        print('No internal config.json found!')
+    config_filepath = get_config_filepath(context)
 
-    filepath = preferences.lint_filepath
-    if filepath:
-        real_path = bpy.path.abspath(filepath)
-        with open(real_path, 'r') as f:
-            rules = json.load(f)
-            import_lint_rules(rules['rules'], lint_collection, existing_rules)
+    try:
+        with open(config_filepath, 'r') as f:
+            lint_rules = json.load(f)
+            import_lint_rules(lint_rules.get('rules', []), lint_collection, existing_rules)
+    except FileNotFoundError:
+        print('{} not found!'.format(config_filepath))

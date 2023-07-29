@@ -23,7 +23,7 @@ class BT_UL_Rules(bpy.types.UIList):
     """Blender UI List to display rules in the preferences. Includes filtering and sorting."""
 
     def draw_item(self, context, layout, data, rule: LintRule, icon, active_data, active_propname, index):
-        rule.draw(layout, index)
+        rule.draw(layout)
 
     def filter_items(self, context, data, propname):
         rules = getattr(data, propname)

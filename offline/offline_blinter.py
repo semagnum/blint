@@ -15,10 +15,13 @@
 
 """Runs BLint on one or multiple blend files, applying fixes if desired.
 
+If a file is provided, will BLint just this file.
+If a folder, BLint will iterate over all blend files within folder recursively.
+
 Usage: ``offline_blinter.py [-h] [--fix] <blender> <path>``
 
 - blender: path to Blender executable.
-- path: filepath. If a blend file, will BLint just this file. If a folder, BLint will iterate over all blend files within the folder recursively.
+- path: filepath. file or folder to lint
 
 """
 

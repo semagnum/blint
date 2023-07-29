@@ -1,41 +1,44 @@
 {
-  "rules": [
-    {
-      "description": "Default cube exists",
-      "severity_icon": "INFO",
-      "category_icon": "MESH_CUBE",
-      "issue_expr": "'Cube' in bpy.data.objects",
-      "fix_expr": "bpy.data.objects.remove(bpy.data.objects[\"Cube\"], do_unlink=True)",
-      "prop_label_expr": ""
-    },
-    {
-      "description": "Avoid numeric name suffixes",
-      "severity_icon": "INFO",
-      "category_icon": "OBJECT_DATA",
-      "issue_expr": "o.name.split('.')[-1].isnumeric()",
-      "fix_expr": "",
-      "prop_label_expr": "name",
-      "iterable_expr": "bpy.data.objects",
-      "iterable_var": "o"
-    },
-    {
-      "description": "Animated seed is disabled",
-      "severity_icon": "ERROR",
-      "category_icon": "TIME",
-      "prop_label_expr": "name",
-      "issue_expr": "curr_scene.render.engine == 'CYCLES' and not curr_scene.cycles.use_animated_seed",
-      "fix_expr": "curr_scene.cycles.use_animated_seed = True",
-      "iterable_expr": "bpy.data.scenes",
-      "iterable_var": "curr_scene"
-    },
-    {
-      "description": "Visibility attributes differ",
-      "severity_icon": "INFO",
-      "category_icon": "HIDE_OFF",
-      "prop_label_expr": "name",
-      "issue_expr": "len({my_object.hide_viewport, my_object.hide_render, my_object.hide_get()}) != 1",
-      "iterable_expr": "bpy.data.objects",
-      "iterable_var": "my_object"
-    }
-  ]
+    "rules": [
+        {
+            "description": "Default cube exists",
+            "enabled": true,
+            "severity_icon": "INFO",
+            "category_icon": "MESH_CUBE",
+            "issue_expr": "'Cube' in bpy.data.objects",
+            "prop_label_expr": "",
+            "fix_expr": "bpy.data.objects.remove(bpy.data.objects[\"Cube\"], do_unlink=True)"
+        },
+        {
+            "description": "Avoid numeric name suffixes",
+            "enabled": true,
+            "severity_icon": "INFO",
+            "category_icon": "OBJECT_DATA",
+            "issue_expr": "o.name.split('.')[-1].isnumeric()",
+            "prop_label_expr": "o.name",
+            "iterable_expr": "bpy.data.objects",
+            "iterable_var": "o"
+        },
+        {
+            "description": "Animated seed is disabled",
+            "enabled": true,
+            "severity_icon": "ERROR",
+            "category_icon": "TIME",
+            "issue_expr": "curr_scene.render.engine == 'CYCLES' and not curr_scene.cycles.use_animated_seed",
+            "prop_label_expr": "curr_scene.name",
+            "fix_expr": "curr_scene.cycles.use_animated_seed = True",
+            "iterable_expr": "bpy.data.scenes",
+            "iterable_var": "curr_scene"
+        },
+        {
+            "description": "Visibility attributes differ",
+            "enabled": true,
+            "severity_icon": "INFO",
+            "category_icon": "HIDE_OFF",
+            "issue_expr": "len({my_object.hide_viewport, my_object.hide_render, my_object.hide_get()}) != 1",
+            "prop_label_expr": "my_object.name",
+            "iterable_expr": "bpy.data.objects",
+            "iterable_var": "my_object"
+        }
+    ]
 }
