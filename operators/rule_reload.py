@@ -49,10 +49,6 @@ class BT_OT_SaveRules(bpy.types.Operator):
     bl_description = 'Saves linter rules to the configuration file'
     bl_options = {'REGISTER', 'UNDO'}
 
-    @classmethod
-    def poll(cls, context):
-        return does_config_exist(context)
-
     def execute(self, context):
         try:
             save_external_rules(context)
