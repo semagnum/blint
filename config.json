@@ -44,7 +44,7 @@
             "description": "File not found or packed",
             "enabled": true,
             "severity_icon": "ERROR",
-            "category_icon": "TEXTURE",
+            "category_icon": "IMAGE_DATA",
             "issue_expr": "my_image.source not in {'GENERATED', 'VIEWER'} and not __import__('os').path.isfile(bpy.path.abspath(my_image.filepath)) and my_image.packed_file is None",
             "prop_label_expr": "my_image.name",
             "iterable_expr": "bpy.data.images",
