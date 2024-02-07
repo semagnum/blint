@@ -41,7 +41,7 @@
             "iterable_var": "my_object"
         },
         {
-            "description": "File not found or packed",
+            "description": "Image not found",
             "enabled": true,
             "severity_icon": "ERROR",
             "category_icon": "IMAGE_DATA",
