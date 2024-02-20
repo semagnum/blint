@@ -57,13 +57,15 @@ def validate_args(validated_blender_path: str, validated_blend_path: str):
         raise FileNotFoundError('Invalid blend path, use a directory or file: {}'.format(validated_blend_path))
 
 
-def analyze_files(final_blend_files: list[str], auto_fix: bool = False):
+def analyze_files(blender_path: str, blend_path: str, final_blend_files: list[str], auto_fix: bool = False):
     """Lints each blend file.
 
     :param final_blend_files: list of blend files to lint.
     :param auto_fix: if true, will apply any fixes available for rules.
     """
     import subprocess
+
+    file_lint_checker_name = os.path.join(os.path.dirname(__file__), 'blinter_file_checker.py')
 
     for blend_file in final_blend_files:
         relpath = os.path.relpath(blend_file, start=blend_path)
@@ -78,7 +80,7 @@ def analyze_files(final_blend_files: list[str], auto_fix: bool = False):
         log_prefix = 'blinter'
         prefix_len = len(log_prefix)
         for line in blend_app.stdout:
-            if type(line) == bytes:
+            if isinstance(line, bytes):
                 line = line.decode('utf-8')
             if line.lstrip().find(log_prefix) == 0:
                 sys.stdout.write(line.lstrip()[prefix_len:])
@@ -92,8 +94,6 @@ if __name__ == '__main__':
     parser.add_argument('--fix', '-f', action='store_true', help='Will automatically fix issues')
 
     args = parser.parse_args()
-
-    file_lint_checker_name = os.path.join(os.path.dirname(__file__), 'blinter_file_checker.py')
 
     try:
         validate_args(args.blender, args.path)
@@ -120,4 +120,4 @@ if __name__ == '__main__':
         print('Invalid blend path: {}'.format(blend_path))
         sys.exit()
 
-    analyze_files(blend_files, args.fix)
+    analyze_files(blender_path, blend_path, blend_files, args.fix)
