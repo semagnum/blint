@@ -1,19 +1,3 @@
-if 'bpy' in locals():
-    import importlib
-
-    reloadable_modules = [
-        'issue_fix',
-        'rule_reload',
-        'select_icon',
-        'select_iterator',
-        'rule_context',
-        'rule_create',
-        'rule_delete'
-    ]
-    for module_name in reloadable_modules:
-        if module_name in locals():
-            importlib.reload(locals()[module_name])
-
 import bpy
 
 from . import (
