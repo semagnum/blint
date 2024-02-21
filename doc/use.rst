@@ -42,6 +42,8 @@ In the add-on preferences, you can enable, disable, or reload rules.
 You can also add an external JSON file to create and save your own rules
 (see how to create rules in [Create](/blint/create)).
 
+You can also run BLint on a file or file(s) via the UI, including fixes.
+
 Offline linting
 -----------------
 
@@ -50,6 +52,10 @@ Here's the syntax to run it:
 ``python offline_blinter.py <path\to\blender.exe> <path\to\file.blend or path\to\directory>``
 It will run ``blinter_file_checker.py`` on each blend file. If given a single file, blinter will only run on that file.
 If given a directory, blinter will find all ``.blend`` files within that directory as well as all subdirectories.
+
+This can also be run in the add-on preferences without a terminal.
+Just select the path and toggle fixes.
+This will use the currently open Blender executable.
 
 *Note: since Blender runs in the background, ``bpy.context`` may not be fully defined.
 Lint rules relying on ``bpy.context`` may not find issues as expected.*

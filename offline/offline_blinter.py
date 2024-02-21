@@ -57,11 +57,15 @@ def validate_args(validated_blender_path: str, validated_blend_path: str):
         raise FileNotFoundError('Invalid blend path, use a directory or file: {}'.format(validated_blend_path))
 
 
-def analyze_files(blender_path: str, blend_path: str, final_blend_files: list[str], auto_fix: bool = False):
+def analyze_files(blender_path: str, blend_path: str, final_blend_files: list[str],
+                  auto_fix: bool = False, post_file_callback=lambda: None):
     """Lints each blend file.
 
-    :param final_blend_files: list of blend files to lint.
-    :param auto_fix: if true, will apply any fixes available for rules.
+    :param blender_path: path to Blender executable
+    :param blend_path: Path to blend files/folder, for printing path relative to this folder
+    :param final_blend_files: list of blend files to lint
+    :param auto_fix: if true, will apply any fixes available for rules
+    :param post_file_callback: callback after each file finishes
     """
     import subprocess
 
@@ -77,14 +81,18 @@ def analyze_files(blender_path: str, blend_path: str, final_blend_files: list[st
             program_args.extend(['--', '--blint-fix'])
         blend_app = subprocess.Popen(program_args, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
-        log_prefix = 'blinter'
-        prefix_len = len(log_prefix)
+        acceptable_prefixes = ('BLint: ', 'Error: ')
         for line in blend_app.stdout:
             if isinstance(line, bytes):
                 line = line.decode('utf-8')
-            if line.lstrip().find(log_prefix) == 0:
-                sys.stdout.write(line.lstrip()[prefix_len:])
-                sys.stdout.flush()
+
+            matching_prefix = next((prefix for prefix in acceptable_prefixes if line.lstrip().find(prefix) == 0), None)
+            if matching_prefix is None:
+                continue
+            sys.stdout.write(line.lstrip()[len(matching_prefix):])
+        sys.stdout.flush()
+
+        post_file_callback()
 
 
 if __name__ == '__main__':

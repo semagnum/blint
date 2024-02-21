@@ -29,7 +29,8 @@ from ..operators import (
     BT_OT_DebugFixIssue,
     BT_OT_ReloadRules,
     BT_OT_SaveRules,
-    BT_OT_SelectIterator
+    BT_OT_SelectIterator,
+    BT_OT_RunOnFiles
 )
 
 
@@ -80,11 +81,32 @@ class SA_Preferences(bpy.types.AddonPreferences):
         col.operator(BT_OT_DeleteRule.bl_idname, icon='REMOVE', text='')
 
         layout.separator()
-        layout.prop(context.window_manager, "form_collapsed",
-                    icon='TRIA_RIGHT' if wm.form_collapsed else 'TRIA_DOWN',
+        layout.prop(context.window_manager, "edit_form_collapsed",
+                    icon='TRIA_RIGHT' if wm.edit_form_collapsed else 'TRIA_DOWN',
                     invert_checkbox=True)
-        if not wm.form_collapsed:
+        if not wm.edit_form_collapsed:
             draw_rule_creation(layout, context, self)
+
+        layout.separator()
+        layout.prop(context.window_manager, "run_form_collapsed",
+                    icon='TRIA_RIGHT' if wm.run_form_collapsed else 'TRIA_DOWN',
+                    invert_checkbox=True)
+        if not wm.run_form_collapsed:
+            layout.label(icon='ERROR', text='This cannot be undone.')
+            layout.prop(wm, 'blint_run_path')
+            layout.prop(wm, 'blint_run_fix')
+
+            if wm.blint_running_progress >= 0.0:
+                layout.progress(
+                    factor=wm.blint_running_progress,
+                    text='({}%) Running, don\'t close Blender...'.format(
+                        str(int(wm.blint_running_progress * 100))
+                    )
+                )
+            else:
+                op = layout.operator(BT_OT_RunOnFiles.bl_idname, icon='PLAY')
+                op.path = wm.blint_run_path
+                op.fix = wm.blint_run_fix
 
 
 def draw_rule_creation(layout, context, preferences):

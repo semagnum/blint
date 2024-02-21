@@ -29,10 +29,10 @@ def log(line: str):
     """
     if line[-1] != '\n':
         line += '\n'
-    print('blinter' + line)
+    print('BLint: ' + line)
 
 
-def print_issues(issue_iter: list['LintIssue'], issue_order: tuple):
+def print_issues(issue_iter: list['LintIssue'], issue_order: list[tuple]):
     """Prints all issues.
 
     :param issue_iter: list of issues

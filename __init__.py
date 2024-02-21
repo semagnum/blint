@@ -55,7 +55,7 @@ from . import save_load, model, operators, panels, preferences
 bl_info = {
     'name': 'BLint',
     'author': 'Spencer Magnusson',
-    'version': (1, 0, 2),
+    'version': (1, 0, 3),
     'blender': (3, 6, 0),
     'description': 'Custom project linting',
     'location': 'Scene',
@@ -71,7 +71,20 @@ properties = [
     ('lint_issues', bpy.props.CollectionProperty(type=model.LintIssue)),
     ('blint_form_issue_active', bpy.props.IntProperty(default=0)),
     ('blint_form_issues', bpy.props.CollectionProperty(type=model.LintIssue)),
-    ('form_collapsed', bpy.props.BoolProperty(name='Edit Selected Rule', default=True))
+    ('edit_form_collapsed', bpy.props.BoolProperty(name='Edit Selected Rule', default=True)),
+    ('run_form_collapsed', bpy.props.BoolProperty(name='Run on File or Folder', default=True)),
+    ('blint_running_progress', bpy.props.FloatProperty(default=-1.0, subtype='PERCENTAGE')),
+    ('blint_run_path', bpy.props.StringProperty(
+        name='File or Folder Path',
+        description='.blend file to evaluate. When folder is selected, '
+                    'BLint selects all .blend files in folder and subfolders.',
+        subtype='FILE_PATH')
+     ),
+    ('blint_run_fix', bpy.props.BoolProperty(
+        name='Fix Issues Found',
+        description='Runs fixes on selected .blend files',
+        default=False)
+     ),
 ]
 
 
