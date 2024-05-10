@@ -1,9 +1,14 @@
 import ast
+import logging
 import os
 import zipfile
 
 allowed_file_extensions = {'.py', '.json', '.md', 'LICENSE'}
 exclude_folders = {'doc', 'venv', '.git', '.idea'}
+
+logging.basicConfig(level=logging.INFO)
+
+log = logging.getLogger(__name__)
 
 
 def zipdir(path, ziph: zipfile.ZipFile, zip_subdir_name):
@@ -13,13 +18,13 @@ def zipdir(path, ziph: zipfile.ZipFile, zip_subdir_name):
             continue
 
         for file in files:
-            if str(file).startswith('.'):
+            if str(file).startswith('.') or not any(file.endswith(ext) for ext in allowed_file_extensions):
+                log.debug('Skipping {}'.format(str(file)))
                 continue
 
-            if any(file.endswith(ext) for ext in allowed_file_extensions):
-                orig_hier = os.path.join(root, file)
-                arc_hier = os.path.join(zip_subdir_name, orig_hier)
-                ziph.write(orig_hier, arc_hier)
+            orig_hier = os.path.join(root, file)
+            arc_hier = os.path.join(zip_subdir_name, orig_hier)
+            ziph.write(orig_hier, arc_hier)
 
 
 def generate_zip_filename(addon_name):
@@ -47,9 +52,9 @@ def zip_main(addon_name):
         zipf = zipfile.ZipFile(filename, 'w', zipfile.ZIP_DEFLATED)
         zipdir('.', zipf, addon_name)
         zipf.close()
-        print('Successfully created zip file: {}'.format(filename))
+        log.info('Successfully created zip file: {}'.format(filename))
     except Exception as e:
-        print('Failed to create {}: {}'.format(filename, e))
+        log.error('Failed to create {}: {}'.format(filename, e))
         exit(1)
 
 
