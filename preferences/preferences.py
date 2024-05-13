@@ -14,6 +14,7 @@
 
 
 import bpy
+import logging
 
 from ..save_load import reload_rules
 
@@ -33,10 +34,15 @@ from ..operators import (
     BT_OT_RunOnFiles
 )
 
+log = logging.getLogger(__name__)
+
 
 def lint_filepath_update(_self, context):
     context.window_manager.lint_rule_active = 0
-    reload_rules(context)
+    try:
+        reload_rules(context)
+    except Exception as e:
+        log.error('Rule reload failed: ' + str(e))
 
 
 class SA_Preferences(bpy.types.AddonPreferences):
@@ -192,5 +198,5 @@ def draw_rule_creation(layout, context, preferences):
         col.template_list('BT_UL_Issues', '', wm, 'blint_form_issues', wm, 'blint_form_issue_active', columns=4)
         col.operator(BT_OT_DebugFixIssue.bl_idname, text='Fix selected')
     except Exception as e:
-        print(e)
-        layout.label(text='Issue debugging failed, check console', icon='ERROR')
+        log.error(e)
+        layout.label(text='Issue debugging failed, see console', icon='ERROR')

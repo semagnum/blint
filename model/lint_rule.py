@@ -15,9 +15,13 @@
 
 from __future__ import annotations
 
+import logging
+
 import bpy
 
 from ..icon_gen import get_icon_enum, get_severity_enum
+
+log = logging.getLogger(__name__)
 
 
 class LintRule(bpy.types.PropertyGroup):
@@ -136,7 +140,7 @@ class LintRule(bpy.types.PropertyGroup):
 
             label_val = str(eval(label_expr)) + ': ' + self.description
         except Exception as e:
-            print('generate_iterative_label failed: ', e)
+            log.error('generate_iterative_label failed: ' + str(e))
             label_val = self.description
 
         return label_val
@@ -147,7 +151,7 @@ class LintRule(bpy.types.PropertyGroup):
         try:
             return eval(expr)
         except Exception as e:
-            print('get_iterative_list failed:', e, expr)
+            log.error('get_iterative_list failed ({}): {}'.format(expr, e))
             return []
 
     def does_issue_exist(self) -> bool:
@@ -155,7 +159,7 @@ class LintRule(bpy.types.PropertyGroup):
         try:
             return eval(self.issue_expr)
         except Exception as e:
-            print('does_issue_exist failed:', e, self.issue_expr)
+            log.warning('Issue detection failed ({}): {}'.format(self.issue_expr, e))
             return False
 
     def get_ui_identifier(self) -> str:
@@ -165,7 +169,7 @@ class LintRule(bpy.types.PropertyGroup):
         try:
             return eval(self.prop_label_expr)
         except Exception as e:
-            print('get_ui_identifier failed', e)
+            log.error('Evaluating identifier failed: ' + str(e))
             return ''
 
     def draw(self, layout: bpy.types.UILayout):

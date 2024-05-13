@@ -12,8 +12,11 @@
 #     You should have received a copy of the GNU General Public License
 #     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import logging
 
 import bpy
+
+log = logging.getLogger(__name__)
 
 
 class BT_OT_FixIssue(bpy.types.Operator):
@@ -34,7 +37,7 @@ class BT_OT_FixIssue(bpy.types.Operator):
         wm = context.window_manager
         idx = wm.lint_issue_active
         fix = wm.lint_issues[idx].fix_expr
-        print('Running:', fix)
+        log.info('Running: {}'.format(fix))
         exec(fix)
         return {'FINISHED'}
 
@@ -78,7 +81,7 @@ class BT_OT_FixIssueAll(bpy.types.Operator):
             fix = wm.lint_issues[idx].fix_expr
             if not fix:
                 continue
-            print('Running:', fix)
+            log.info('Running: {}'.format(fix))
             exec(fix)
 
         return {'FINISHED'}

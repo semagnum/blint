@@ -12,13 +12,16 @@
 #     You should have received a copy of the GNU General Public License
 #     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import json
+import logging
+import os
 
 import bpy
-import json
-import os
 
 from .security import security_check
 from .. import get_user_preferences
+
+log = logging.getLogger(__name__)
 
 
 def get_config_filepath(context):
@@ -53,7 +56,8 @@ def import_lint_rules(lint_rules: list[dict], rule_properties: bpy.props.Collect
         try:
             map(security_check, rule.values())
         except ValueError as ve:
-            print(ve)
+            error_message = 'Rule \"' + rule.get('description', 'Unknown rule') + '\": ' + str(ve)
+            log.error(error_message)
             continue
 
         new_rule = rule_properties.add()

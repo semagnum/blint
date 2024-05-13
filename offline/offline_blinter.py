@@ -25,9 +25,12 @@ Usage: ``offline_blinter.py [-h] [--fix] <blender> <path>``
 
 """
 
-import sys
-import os
 import argparse
+import logging
+import os
+import sys
+
+log = logging.getLogger(__name__)
 
 
 def collect_blend_files(curr_dir: str) -> list[str]:
@@ -57,15 +60,13 @@ def validate_args(validated_blender_path: str, validated_blend_path: str):
         raise FileNotFoundError('Invalid blend path, use a directory or file: {}'.format(validated_blend_path))
 
 
-def analyze_files(blender_path: str, blend_path: str, final_blend_files: list[str],
-                  auto_fix: bool = False, post_file_callback=lambda: None):
+def analyze_files(blender_path: str, blend_path: str, final_blend_files: list[str], auto_fix: bool = False):
     """Lints each blend file.
 
     :param blender_path: path to Blender executable
     :param blend_path: Path to blend files/folder, for printing path relative to this folder
     :param final_blend_files: list of blend files to lint
     :param auto_fix: if true, will apply any fixes available for rules
-    :param post_file_callback: callback after each file finishes
     """
     import subprocess
 
@@ -73,29 +74,29 @@ def analyze_files(blender_path: str, blend_path: str, final_blend_files: list[st
 
     for blend_file in final_blend_files:
         relpath = os.path.relpath(blend_file, start=blend_path)
+        blend_basename = os.path.basename(blend_file)
         if relpath == '.':
             relpath = os.path.relpath(blend_file, start=os.path.dirname(blend_file))
-        print('Linting {}...'.format(relpath if relpath != '.' else blend_file))
+        log.info('Linting {}...'.format(relpath if relpath != '.' else blend_file))
         program_args = [blender_path, blend_file, '-b', '-P', file_lint_checker_name]
         if auto_fix:
             program_args.extend(['--', '--blint-fix'])
         blend_app = subprocess.Popen(program_args, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
-        acceptable_prefixes = ('BLint: ', 'Error: ')
         for line in blend_app.stdout:
             if isinstance(line, bytes):
-                line = line.decode('utf-8')
+                line = line.decode('utf-8').strip()
 
-            matching_prefix = next((prefix for prefix in acceptable_prefixes if line.lstrip().find(prefix) == 0), None)
-            if matching_prefix is None:
-                continue
-            sys.stdout.write(line.lstrip()[len(matching_prefix):])
-        sys.stdout.flush()
-
-        post_file_callback()
+            if blend_basename in line.split(':'):
+                log_type, log_line = line.split(':', maxsplit=1)
+                log_func = getattr(log, log_type.lower(), log.info)
+                log_func(log_line)
 
 
 if __name__ == '__main__':
+    # only configure log OUTSIDE Blender
+    logging.basicConfig(level=logging.INFO, format='%(levelname)s:offline_blinter:%(message)s')
+
     parser = argparse.ArgumentParser(description='Runs blint on one or more blend files')
     parser.add_argument('blender', help='File location of the Blender\'s executable file')
     parser.add_argument('path', help='Path to blend file or folder containing blend files')
@@ -115,17 +116,17 @@ if __name__ == '__main__':
 
     blend_files = []
     if os.path.isdir(blend_path):
-        print('Collecting blend files from directory: {}'.format(blend_path))
+        log.info('Collecting blend files from directory: {}'.format(blend_path))
         blend_files = collect_blend_files(os.path.join(blend_path))
         if len(blend_files) == 0:
-            print('No .blend files found in {}'.format(blend_path))
+            log.error('No .blend files found in {}'.format(blend_path))
             sys.exit()
-        print('Found {} .blend file(s)'.format(len(blend_files)))
+        log.info('Found {} .blend file(s)'.format(len(blend_files)))
     elif os.path.isfile(blend_path):
-        print('Running linter on single file: {}'.format(blend_path))
+        log.info('Running linter on single file: {}'.format(blend_path))
         blend_files = [blend_path]
     else:
-        print('Invalid blend path: {}'.format(blend_path))
-        sys.exit()
+        log.error('Invalid blend path: {}'.format(blend_path))
+        sys.exit(1)
 
     analyze_files(blender_path, blend_path, blend_files, args.fix)

@@ -38,7 +38,7 @@ class BT_OT_ReloadRules(bpy.types.Operator):
             self.report({'INFO'}, 'Successfully reloaded rules from disk')
             return {'FINISHED'}
         except Exception as e:
-            self.report({'ERROR'}, 'Reload error failed: ' + str(e))
+            self.report({'ERROR'}, 'Reload failed: ' + str(e))
             return {'CANCELLED'}
 
 
