@@ -1,4 +1,4 @@
-# Copyright (C) 2023 Spencer Magnusson
+# Copyright (C) 2024 Spencer Magnusson
 # semagnum@gmail.com
 # Created by Spencer Magnusson
 #     This program is free software: you can redistribute it and/or modify
@@ -13,5 +13,15 @@
 #     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-# prevents circular imports between the model and operators, as they reference each other
-PACKAGE_NAME = 'blint'
+from .. import __package__ as PACKAGE_NAME
+
+
+def get_user_preferences(context):
+    """Returns BLint preferences and attributes.
+
+    :param context: Blender's context
+    """
+    if hasattr(context, "user_preferences"):
+        return context.user_preferences.addons[PACKAGE_NAME].preferences
+
+    return context.preferences.addons[PACKAGE_NAME].preferences

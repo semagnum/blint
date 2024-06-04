@@ -1,4 +1,4 @@
-# Copyright (C) 2023 Spencer Magnusson
+# Copyright (C) 2024 Spencer Magnusson
 # semagnum@gmail.com
 # Created by Spencer Magnusson
 #     This program is free software: you can redistribute it and/or modify
@@ -18,8 +18,8 @@ import os
 
 import bpy
 
+from .pref_access import get_user_preferences
 from .security import security_check
-from .. import get_user_preferences
 
 log = logging.getLogger(__name__)
 

@@ -1,4 +1,4 @@
-# Copyright (C) 2023 Spencer Magnusson
+# Copyright (C) 2024 Spencer Magnusson
 # semagnum@gmail.com
 # Created by Spencer Magnusson
 #     This program is free software: you can redistribute it and/or modify
@@ -21,7 +21,7 @@ from ..save_load import reload_rules
 from ..icon_gen import format_icon_name
 from ..model import LintRule
 
-from ..config import PACKAGE_NAME
+from .. import __package__ as PACKAGE_NAME
 
 from ..operators import (
     BT_OT_CreateRule,
