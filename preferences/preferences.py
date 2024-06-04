@@ -98,9 +98,11 @@ class SA_Preferences(bpy.types.AddonPreferences):
                     icon='TRIA_RIGHT' if wm.run_form_collapsed else 'TRIA_DOWN',
                     invert_checkbox=True)
         if not wm.run_form_collapsed:
-            layout.label(icon='ERROR', text='This cannot be undone.')
             layout.prop(wm, 'blint_run_path')
             layout.prop(wm, 'blint_run_fix')
+
+            if wm.blint_run_fix:
+                layout.label(icon='ERROR', text='This cannot be undone.')
 
             if wm.blint_running_progress >= 0.0:
                 layout.progress(
