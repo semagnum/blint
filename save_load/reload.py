@@ -1,4 +1,4 @@
-# Copyright (C) 2023 Spencer Magnusson
+# Copyright (C) 2024 Spencer Magnusson
 # semagnum@gmail.com
 # Created by Spencer Magnusson
 #     This program is free software: you can redistribute it and/or modify
@@ -15,7 +15,7 @@
 import logging
 import json
 
-from .. import get_user_preferences
+from .pref_access import get_user_preferences
 from .save_load_util import import_lint_rules, get_config_filepath
 
 log = logging.getLogger(__name__)

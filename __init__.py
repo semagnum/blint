@@ -48,14 +48,12 @@ if 'bpy' in locals():
 
 import bpy
 
-from . import config, pref_access
-from .pref_access import get_user_preferences
 from . import save_load, model, operators, panels, preferences
 
 bl_info = {
     'name': 'BLint',
     'author': 'Spencer Magnusson',
-    'version': (1, 1, 0),
+    'version': (1, 2, 0),
     'blender': (3, 6, 0),
     'description': 'Custom project linting',
     'location': 'Scene',

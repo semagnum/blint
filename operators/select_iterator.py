@@ -1,4 +1,4 @@
-# Copyright (C) 2023 Spencer Magnusson
+# Copyright (C) 2024 Spencer Magnusson
 # semagnum@gmail.com
 # Created by Spencer Magnusson
 #     This program is free software: you can redistribute it and/or modify
@@ -16,7 +16,7 @@
 import bpy
 
 from ..icon_gen import bpy_data_enum
-from ..pref_access import get_user_preferences
+from ..save_load import get_user_preferences
 
 
 class BT_OT_SelectIterator(bpy.types.Operator):
