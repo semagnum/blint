@@ -1,4 +1,4 @@
-# Copyright (C) 2023 Spencer Magnusson
+# Copyright (C) 2024 Spencer Magnusson
 # semagnum@gmail.com
 # Created by Spencer Magnusson
 #     This program is free software: you can redistribute it and/or modify
@@ -60,7 +60,7 @@ def validate_args(validated_blender_path: str, validated_blend_path: str):
         raise FileNotFoundError('Invalid blend path, use a directory or file: {}'.format(validated_blend_path))
 
 
-def analyze_files(blender_path: str, blend_path: str, final_blend_files: list[str], auto_fix: bool = False):
+def analyze_files(blender_path: str, blend_path: str, final_blend_files: list[str], auto_fix: bool = False, errors_only=False):
     """Lints each blend file.
 
     :param blender_path: path to Blender executable
@@ -90,7 +90,8 @@ def analyze_files(blender_path: str, blend_path: str, final_blend_files: list[st
             if blend_basename in line.split(':'):
                 log_type, log_line = line.split(':', maxsplit=1)
                 log_func = getattr(log, log_type.lower(), log.info)
-                log_func(log_line)
+                if not errors_only or 'ERROR' in log_line:
+                    log_func(log_line)
 
 
 if __name__ == '__main__':
@@ -101,6 +102,7 @@ if __name__ == '__main__':
     parser.add_argument('blender', help='File location of the Blender\'s executable file')
     parser.add_argument('path', help='Path to blend file or folder containing blend files')
     parser.add_argument('--fix', '-f', action='store_true', help='Will automatically fix issues')
+    parser.add_argument('--errors-only', '-e', action='store_true', help='Only log error severity issues')
 
     args = parser.parse_args()
 
@@ -129,4 +131,4 @@ if __name__ == '__main__':
         log.error('Invalid blend path: {}'.format(blend_path))
         sys.exit(1)
 
-    analyze_files(blender_path, blend_path, blend_files, args.fix)
+    analyze_files(blender_path, blend_path, blend_files, args.fix, args.errors_only)
