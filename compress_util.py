@@ -3,7 +3,7 @@ import logging
 import os
 import zipfile
 
-allowed_file_extensions = {'.py', '.json', '.md', 'LICENSE'}
+allowed_file_extensions = {'.py', '.json', '.md', '.toml', 'LICENSE'}
 exclude_folders = {'doc', 'venv', '.git', '.idea'}
 
 logging.basicConfig(level=logging.INFO)
