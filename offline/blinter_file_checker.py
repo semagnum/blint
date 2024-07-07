@@ -18,13 +18,20 @@
 If you wish to run BLint without opening Blender, use ``offline_blinter.py``.
 
 """
-import logging
 import os
 import sys
 
 import bpy
 
-log = logging.getLogger(__name__)
+BLEND_FILENAME = os.path.basename(bpy.data.filepath)
+
+
+def log_info(msg: str):
+    print(f'INFO:{BLEND_FILENAME}:{msg}')
+
+
+def log_error(msg: str):
+    print(f'ERROR:{BLEND_FILENAME}:{msg}', file=sys.stderr)
 
 
 def print_issues(issue_iter: list['LintIssue'], issue_order: list[tuple]):
@@ -35,7 +42,7 @@ def print_issues(issue_iter: list['LintIssue'], issue_order: list[tuple]):
     """
     for idx, _, _ in issue_order:
         issue = issue_iter[idx]
-        log.info('{}:{}:{}'.format(issue.severity_icon, issue.category_icon, issue.description))
+        log_info('{}:{}:{}'.format(issue.severity_icon, issue.category_icon, issue.description))
 
 
 def fix_issues(issue_iter):
@@ -49,17 +56,12 @@ def fix_issues(issue_iter):
     curr_issues = window_manager.lint_issues
     curr_num_issues = len(curr_issues)
     num_fixed = orig_num_issues - curr_num_issues
-    log.info('{} issues fixed'.format(num_fixed))
+    log_info('{} issues fixed'.format(num_fixed))
     bpy.ops.wm.save_as_mainfile(filepath=bpy.data.filepath)
-    log.info('File saved')
+    log_info('File saved')
 
 
 if __name__ == '__main__':
-    blend_filename = bpy.data.filepath
-    base_blend_filename = os.path.basename(blend_filename)
-    # only run this in CLI to not mess with Blender's logging config permanently
-    logging.basicConfig(level=logging.INFO, format='%(levelname)s:{}:%(message)s'.format(base_blend_filename))
-
     auto_fix = any('--blint-fix' == a for a in sys.argv)
 
     # get lint rules from preferences
@@ -67,7 +69,7 @@ if __name__ == '__main__':
         from blint.model.lint_issue import get_sort_value
         from blint.save_load import reload_issues
     except ImportError:
-        log.error('blint not found, the blint addon must be installed and enabled!')
+        log_error('blint not found, the blint addon must be installed and enabled!')
         sys.exit(1)
 
     context = bpy.context
@@ -80,7 +82,7 @@ if __name__ == '__main__':
     # print blender file name
     try:
         if len(window_manager.lint_issues) == 0:
-            log.info('No issues found')
+            log_info('No issues found')
         else:
             issues = window_manager.lint_issues
             issue_sort_vals = [(idx, get_sort_value(issue), issue.description) for idx, issue in enumerate(issues)]
@@ -90,13 +92,13 @@ if __name__ == '__main__':
             num_fixable = len([True for issue in issues if issue.fix_expr])
             if num_fixable > 0:
                 if auto_fix:
-                    log.info('Fixing {} of {} issues...'.format(num_fixable, len(issues)))
+                    log_info('Fixing {} of {} issues...'.format(num_fixable, len(issues)))
                     fix_issues(issues)
                     reload_issues(context)
                 else:
-                    log.info('{} of {} issues can be automatically fixed'.format(num_fixable, len(issues)))
+                    log_info('{} of {} issues can be automatically fixed'.format(num_fixable, len(issues)))
 
     except Exception as e:
-        log.error(str(e))
+        log_error(str(e))
 
-    log.info('Closing file...')
+    log_info('Closing file...')
