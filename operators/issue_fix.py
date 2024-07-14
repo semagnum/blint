@@ -30,7 +30,14 @@ class BT_OT_FixIssue(bpy.types.Operator):
     def poll(cls, context):
         wm = context.window_manager
         idx = wm.lint_issue_active
-        return 0 <= idx < len(wm.lint_issues) and wm.lint_issues[idx].fix_expr
+        result = (
+                0 <= idx < len(wm.lint_issues) and
+                wm.lint_issues[idx].fix_expr
+        )
+        if not result:
+            cls.poll_message_set('Selected issue has no defined fix')
+
+        return result
 
     # noinspection PyMethodMayBeStatic
     def execute(self, context):
@@ -53,7 +60,15 @@ class BT_OT_DebugFixIssue(bpy.types.Operator):
     def poll(cls, context):
         wm = context.window_manager
         idx = wm.blint_form_issue_active
-        return 0 <= idx < len(wm.blint_form_issues) and wm.blint_form_issues[idx].fix_expr
+        result = (
+                0 <= idx < len(wm.blint_form_issues) and
+                wm.blint_form_issues[idx].fix_expr
+        )
+
+        if not result:
+            cls.poll_message_set('This issue has no defined fix')
+
+        return result
 
     def execute(self, context):
         wm = context.window_manager
@@ -73,7 +88,15 @@ class BT_OT_FixIssueAll(bpy.types.Operator):
     @classmethod
     def poll(cls, context):
         wm = context.window_manager
-        return len(wm.lint_issues) and any([wm.lint_issues[idx].fix_expr for idx in range(len(wm.lint_issues))])
+        result = (
+                len(wm.lint_issues) and
+                any([wm.lint_issues[idx].fix_expr for idx in range(len(wm.lint_issues))])
+        )
+
+        if not result:
+            cls.poll_message_set('No issues present have a defined fix')
+
+        return result
 
     def execute(self, context):
         wm = context.window_manager
