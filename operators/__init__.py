@@ -44,6 +44,8 @@ def register():
     _register()
     bpy.types.UI_MT_button_context_menu.append(rule_context.menu_func)
 
+    bpy.app.timers.register(lambda: bpy.ops.blint.reload_rules(), first_interval=1)
+
 
 def unregister():
     bpy.types.UI_MT_button_context_menu.remove(rule_context.menu_func)
