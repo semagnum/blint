@@ -40,11 +40,15 @@ if len(bpy.utils.register_classes_factory(_registration_order)) != 0:
     _register, _unregister = bpy.utils.register_classes_factory(_registration_order)
 
 
+def register_reload():
+    bpy.ops.blint.reload_rules()
+
+
 def register():
     _register()
     bpy.types.UI_MT_button_context_menu.append(rule_context.menu_func)
 
-    bpy.app.timers.register(lambda: bpy.ops.blint.reload_rules(), first_interval=1)
+    bpy.app.timers.register(register_reload, first_interval=1)
 
 
 def unregister():

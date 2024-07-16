@@ -53,7 +53,7 @@ from . import save_load, model, operators, panels, preferences
 bl_info = {
     'name': 'BLint',
     'author': 'Spencer Magnusson',
-    'version': (1, 3, 2),
+    'version': (1, 3, 3),
     'blender': (3, 6, 0),
     'description': 'Custom project linting',
     'location': 'Scene',
