@@ -9,6 +9,7 @@ from . import (
 _registration_order = [
     issues_list.BT_UL_Issues,
     rules_list.BT_UL_Rules,
+    issues_panel.BT_MT_context_menu,
     issues_panel.BT_PT_Issues,
 ]
 

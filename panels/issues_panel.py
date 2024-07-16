@@ -18,6 +18,14 @@ import bpy
 from ..save_load import reload_issues
 from ..operators import BT_OT_FixIssue, BT_OT_FixIssueAll
 
+class BT_MT_context_menu(bpy.types.Menu):
+    bl_label = "BLint Issues"
+
+    def draw(self, _context):
+        layout = self.layout
+        layout.operator(BT_OT_FixIssue.bl_idname, text='Run Fix', icon='PLAY')
+        layout.operator(BT_OT_FixIssueAll.bl_idname, text='Run All Fixes')
+
 
 class BT_PT_Issues(bpy.types.Panel):
     """Scene panel to display issues found in the Blender file."""
@@ -32,7 +40,8 @@ class BT_PT_Issues(bpy.types.Panel):
         window_manager = context.window_manager
 
         reload_issues(context)
-        layout.template_list('BT_UL_Issues', '',
+        row = layout.row()
+        row.template_list('BT_UL_Issues', '',
                              window_manager, 'lint_issues',
                              window_manager, 'lint_issue_active', columns=4)
 
@@ -42,10 +51,4 @@ class BT_PT_Issues(bpy.types.Panel):
             elif window_manager.lint_issue_active >= len(window_manager.lint_issues):
                 window_manager.lint_issue_active = len(window_manager.lint_issues) - 1
 
-            idx = window_manager.lint_issue_active
-            if not window_manager.lint_issues[idx].fix_expr:
-                layout.label(text='No fix defined for this issue')
-
-        row = layout.row()
-        row.operator(BT_OT_FixIssue.bl_idname, text='Fix selected')
-        row.operator(BT_OT_FixIssueAll.bl_idname, text='Fix all')
+        row.menu("BT_MT_context_menu", icon='DOWNARROW_HLT', text="")
