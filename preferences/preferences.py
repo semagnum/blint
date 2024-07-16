@@ -45,6 +45,15 @@ def lint_filepath_update(_self, context):
         log.error('Rule reload failed: ' + str(e))
 
 
+class BT_MT_config_menu(bpy.types.Menu):
+    bl_label = "BLint Config"
+
+    def draw(self, _context):
+        layout = self.layout
+        layout.operator(BT_OT_ReloadRules.bl_idname, icon='FILE_REFRESH')
+        layout.operator(BT_OT_SaveRules.bl_idname, icon='FILE_TICK')
+
+
 class SA_Preferences(bpy.types.AddonPreferences):
     """BLint preferences"""
     bl_idname = PACKAGE_NAME
@@ -74,9 +83,6 @@ class SA_Preferences(bpy.types.AddonPreferences):
         row = layout.row()
         row.active = self.config_type == 'EXTERNAL'
         row.prop(self, 'lint_filepath')
-        row = layout.row(align=True)
-        row.operator(BT_OT_ReloadRules.bl_idname, icon='FILE_REFRESH')
-        row.operator(BT_OT_SaveRules.bl_idname, icon='FILE_TICK')
 
         layout.separator()
 
@@ -85,6 +91,8 @@ class SA_Preferences(bpy.types.AddonPreferences):
         col = row.column(align=True)
         col.operator(BT_OT_CreateRule.bl_idname, icon='ADD', text='')
         col.operator(BT_OT_DeleteRule.bl_idname, icon='REMOVE', text='')
+        col.separator()
+        col.menu("BT_MT_config_menu", icon='DOWNARROW_HLT', text="")
 
         layout.separator()
         layout.prop(context.window_manager, "edit_form_collapsed",
