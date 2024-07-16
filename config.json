@@ -31,6 +31,16 @@
             "iterable_var": "curr_scene"
         },
         {
+            "description": "Unapplied scale on modified object",
+            "enabled": true,
+            "severity_icon": "INFO",
+            "category_icon": "MODIFIER",
+            "issue_expr": "tuple(my_object.scale) != (1.0, 1.0, 1.0) and any(m.type in {'BEVEL', 'SOLIDIFY'} for m in my_object.modifiers)",
+            "prop_label_expr": "my_object.name",
+            "iterable_expr": "bpy.data.objects",
+            "iterable_var": "my_object"
+        },
+        {
             "description": "Visibility attributes differ",
             "enabled": true,
             "severity_icon": "INFO",
