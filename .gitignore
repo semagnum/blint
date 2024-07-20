@@ -4,5 +4,6 @@
 _templates/
 build/
 _build/
+__pycache__/
 
 *.zip
