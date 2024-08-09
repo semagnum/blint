@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="../_static/favicon.ico" rel="icon" type="image/x-icon">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BLint Offline &mdash; BLint  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=187304be"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex/" />
+    <link rel="search" title="Search" href="../search/" />
+    <link rel="next" title="blint root package files" href="../blint/" />
+    <link rel="prev" title="Save and Load Utility modules" href="../save_load/" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../" class="icon icon-home">
+            BLint
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../use/">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../use/#okay-i-installed-blint-where-is-it">Okay, I installed BLint, where is it?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../create/">Rule Creation</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../operators/">BLint operators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../panels/">UI Panels and Lists</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model/">Rules and Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../preferences/">Preferences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../save_load/">Save and Load Utility modules</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">BLint Offline</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-blint.offline.offline_blinter">offline_blinter</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#blint.offline.offline_blinter.collect_blend_files"><code class="docutils literal notranslate"><span class="pre">collect_blend_files()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#blint.offline.offline_blinter.validate_args"><code class="docutils literal notranslate"><span class="pre">validate_args()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#blint.offline.offline_blinter.analyze_files"><code class="docutils literal notranslate"><span class="pre">analyze_files()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#blinter-file-checker">blinter_file_checker</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../blint/">blint root package files</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../">BLint</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">BLint Offline</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/offline.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-blint.offline">
+<span id="blint-offline"></span><h1>BLint Offline<a class="headerlink" href="#module-blint.offline" title="Link to this heading"></a></h1>
+<p>BLint Offline allows users to run BLint from the command line, fixing files if necessary.</p>
+<p>This enables BLint for continuous integration and automated testing.</p>
+<section id="module-blint.offline.offline_blinter">
+<span id="offline-blinter"></span><h2>offline_blinter<a class="headerlink" href="#module-blint.offline.offline_blinter" title="Link to this heading"></a></h2>
+<p>Runs BLint on one or multiple blend files, applying fixes if desired.</p>
+<p>If a file is provided, will BLint just this file.
+If a folder, BLint will iterate over all blend files within folder recursively.</p>
+<p>Usage: <code class="docutils literal notranslate"><span class="pre">offline_blinter.py</span> <span class="pre">[-h]</span> <span class="pre">[--fix]</span> <span class="pre">&lt;blender&gt;</span> <span class="pre">&lt;path&gt;</span></code></p>
+<ul class="simple">
+<li><p>blender: path to Blender executable.</p></li>
+<li><p>path: filepath. file or folder to lint</p></li>
+</ul>
+<dl class="py function">
+<dt class="sig sig-object py" id="blint.offline.offline_blinter.collect_blend_files">
+<span class="sig-prename descclassname"><span class="pre">blint.offline.offline_blinter.</span></span><span class="sig-name descname"><span class="pre">collect_blend_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curr_dir</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#blint.offline.offline_blinter.collect_blend_files" title="Link to this definition"></a></dt>
+<dd><p>Returns all blend files in a folder.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>curr_dir</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – root directory to begin search for blend files.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="blint.offline.offline_blinter.validate_args">
+<span class="sig-prename descclassname"><span class="pre">blint.offline.offline_blinter.</span></span><span class="sig-name descname"><span class="pre">validate_args</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">validated_blender_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validated_blend_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#blint.offline.offline_blinter.validate_args" title="Link to this definition"></a></dt>
+<dd><p>Validates Blender executable and blend filepaths.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>validated_blender_path</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – path to Blender executable.</p></li>
+<li><p><strong>validated_blend_path</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – path to blend file.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>FileNotFoundError</strong> – unable to find Blender executable or blend file.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="blint.offline.offline_blinter.analyze_files">
+<span class="sig-prename descclassname"><span class="pre">blint.offline.offline_blinter.</span></span><span class="sig-name descname"><span class="pre">analyze_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blender_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blend_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">final_blend_files</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_fix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errors_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#blint.offline.offline_blinter.analyze_files" title="Link to this definition"></a></dt>
+<dd><p>Lints each blend file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>blender_path</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – path to Blender executable</p></li>
+<li><p><strong>blend_path</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – Path to blend files/folder, for printing path relative to this folder</p></li>
+<li><p><strong>final_blend_files</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]</span>) – list of blend files to lint</p></li>
+<li><p><strong>auto_fix</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></span>) – if true, will apply any fixes available for rules</p></li>
+<li><p><strong>errors_only</strong> – if true, will only print BLint issues that are error severity</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="blinter-file-checker">
+<h2>blinter_file_checker<a class="headerlink" href="#blinter-file-checker" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../save_load/" class="btn btn-neutral float-left" title="Save and Load Utility modules" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../blint/" class="btn btn-neutral float-right" title="blint root package files" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Spencer Magnusson.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
