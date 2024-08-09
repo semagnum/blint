@@ -16,8 +16,6 @@ type = "add-on"
 # * "clipboard" (to read and/or write the system clipboard)
 # * "camera" (to capture photos and videos)
 # * "microphone" (to capture audio)
-[permissions]
-files = "Read/write to JSON config files on disk"
 
 # Optional link to documentation, support, source files, etc
 # website = "http://extensions.blender.org/add-ons/my-example-package/"
@@ -50,6 +48,9 @@ license = [
 #   "./wheels/hexdump-3.3-py3-none-any.whl",
 #   "./wheels/jsmin-3.0.1-py3-none-any.whl"
 # ]
+
+[permissions]
+files = "Read/write to JSON config files on disk"
 
 # Optional: build setting.
 # https://docs.blender.org/manual/en/dev/extensions/command_line_arguments.html#command-line-args-extension-build
