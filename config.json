@@ -59,6 +59,28 @@
             "prop_label_expr": "my_image.name",
             "iterable_expr": "bpy.data.images",
             "iterable_var": "my_image"
+        },
+        {
+            "description": "Use GPU viewport denoising when available",
+            "enabled": true,
+            "severity_icon": "INFO",
+            "category_icon": "RESTRICT_RENDER_OFF",
+            "issue_expr": "my_scene.render.engine == 'CYCLES' and my_scene.cycles.use_preview_denoising and not my_scene.cycles.preview_denoising_use_gpu",
+            "prop_label_expr": "my_scene.name",
+            "fix_expr": "my_scene.cycles.preview_denoising_use_gpu = True",
+            "iterable_expr": "bpy.data.scenes",
+            "iterable_var": "my_scene"
+        },
+        {
+            "description": "Use GPU render denoising when available",
+            "enabled": true,
+            "severity_icon": "INFO",
+            "category_icon": "RESTRICT_RENDER_OFF",
+            "issue_expr": "my_scene.render.engine == 'CYCLES' and my_scene.cycles.use_denoising and not my_scene.cycles.denoising_use_gpu",
+            "prop_label_expr": "my_scene.name",
+            "fix_expr": "my_scene.cycles.denoising_use_gpu = True",
+            "iterable_expr": "bpy.data.scenes",
+            "iterable_var": "my_scene"
         }
     ]
 }
