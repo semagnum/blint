@@ -44,7 +44,7 @@ class BT_OT_FixIssue(bpy.types.Operator):
         wm = context.window_manager
         idx = wm.lint_issue_active
         fix = wm.lint_issues[idx].fix_expr
-        log.info('Running: {}'.format(fix))
+        log.debug('Running: {}'.format(fix))
         exec(fix)
         return {'FINISHED'}
 
@@ -104,7 +104,7 @@ class BT_OT_FixIssueAll(bpy.types.Operator):
             fix = wm.lint_issues[idx].fix_expr
             if not fix:
                 continue
-            log.info('Running: {}'.format(fix))
+            log.debug('Running: {}'.format(fix))
             exec(fix)
 
         return {'FINISHED'}
