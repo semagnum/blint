@@ -34,6 +34,7 @@ def reload_issues(context):
                 new_issue.severity_icon = issue.get('severity_icon')
                 new_issue.category_icon = issue.get('category_icon')
                 new_issue.fix_expr = issue.get('fix_expr')
+                new_issue.rule_file = issue.get('rule_file', '')
             except ValueError as e:
                 log.error("Error with {}: {}".format(issue.get('description'), e))
 

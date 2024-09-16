@@ -15,13 +15,24 @@
 
 from __future__ import annotations
 
+import importlib
 import logging
+import os.path
 
 import bpy
 
 from ..icon_gen import get_icon_enum, get_severity_enum
 
 log = logging.getLogger(__name__)
+
+
+def import_from_file(file_path):
+    loader = importlib.machinery.SourceFileLoader('custom_rule_module', file_path)
+    spec = importlib.util.spec_from_loader('custom_rule_module', loader)
+    custom_rule_module = importlib.util.module_from_spec(spec)
+    loader.exec_module(custom_rule_module)
+
+    return custom_rule_module
 
 
 class LintRule(bpy.types.PropertyGroup):
@@ -72,6 +83,13 @@ class LintRule(bpy.types.PropertyGroup):
                                                           'in its description (can reference data iteration variable)',
                                               default='')
     """Python expression that evaluates to an identifying label used with the issue description in the UI."""
+    rule_file: bpy.props.StringProperty(
+        name='Rule File',
+        description=('Python file with functions to find and fix issues.\n'
+                     'If provided, only the rule description and enabled toggle will be used. The rest are ignored'),
+        default='',
+        subtype='FILE_PATH',
+    )
 
     def check_for_errors(self) -> list[str]:
         """Validates ``LintRule`` properties.
@@ -85,10 +103,18 @@ class LintRule(bpy.types.PropertyGroup):
             issues.append('Category icon cannot be empty')
         if self.severity_icon == '':
             issues.append('Severity icon cannot be empty')
-        if self.issue_expr == '':
-            issues.append('Issue expression cannot be empty')
-        if self.iterable_expr != '' and self.iterable_var == '':
-            issues.append('Iteration variable cannot be empty when using data iteration')
+        if self.rule_file == '':
+            if self.issue_expr == '':
+                issues.append('Issue expression cannot be empty')
+            if self.iterable_expr != '' and self.iterable_var == '':
+                issues.append('Iteration variable cannot be empty when using data iteration')
+        elif not os.path.isfile(bpy.path.abspath(self.rule_file)):
+            issues.append('Rule file does not exist')
+        else:
+            rule_module = import_from_file(bpy.path.abspath(self.rule_file))
+            if not hasattr(rule_module, 'get_issues') or not callable(rule_module.get_issues):
+                issues.append('Rule file\'s "get_issues()" does not exist')
+
         return issues
 
     def copy(self, other_rule: LintRule) -> LintRule:
@@ -183,20 +209,40 @@ class LintRule(bpy.types.PropertyGroup):
         sub_row.label(text='', icon=self.category_icon)
         sub_row.label(text=self.description)
 
+    def get_issues_from_file(self):
+        rule_file_path = bpy.path.abspath(self.rule_file)
+        if not os.path.isfile(rule_file_path):
+            log.error('Rule file not found: {}'.format(rule_file_path))
+            return []
+
+        rule_module = import_from_file(rule_file_path)
+        if not hasattr(rule_module, 'get_issues') or not callable(rule_module.get_issues):
+            log.error('get_issues() function not found in rule file: {}'.format(rule_file_path))
+            return []
+
+        issues = rule_module.get_issues()
+
+        if hasattr(rule_module, 'fix_issues') and callable(rule_module.fix_issues):
+            issues = [dict(issue, **{'rule_file': self.rule_file}) for issue in issues]
+
+        return issues
+
     def get_issues(self) -> list[dict]:
         """Generates and returns a list of issues that violate rules."""
+        result = []
         if self.enabled:
-            if self.iterable_expr:
-                issues = []
-                for idx, identifier in enumerate(self.get_iterative_list()):
-                    issue = {
+            if self.rule_file:
+                result = self.get_issues_from_file()
+            elif self.iterable_expr:
+                result = [
+                    {
                         'description': self.generate_description(idx),
                         'severity_icon': self.severity_icon,
                         'category_icon': self.category_icon,
                         'fix_expr': self.generate_fix(idx) if self.fix_expr else ''
                     }
-                    issues.append(issue)
-                return issues
+                    for idx, identifier in enumerate(self.get_iterative_list())
+                ]
             elif self.does_issue_exist():
                 issue = {
                     'description': self.generate_description(-1),
@@ -204,5 +250,5 @@ class LintRule(bpy.types.PropertyGroup):
                     'category_icon': self.category_icon,
                     'fix_expr': self.fix_expr
                 }
-                return [issue]
-        return []
+                result = [issue]
+        return result
