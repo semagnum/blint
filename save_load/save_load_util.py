@@ -66,6 +66,11 @@ def import_lint_rules(lint_rules: list[dict], rule_properties: bpy.props.Collect
             new_rule.enabled = False
         else:
             new_rule.enabled = rule.get('enabled', True)
+
+        new_rule.rule_file = rule.get('rule_file', '')
+        if new_rule.rule_file:
+            continue
+
         new_rule.severity_icon = rule.get('severity_icon', 'INFO')
         new_rule.category_icon = rule.get('category_icon')
         new_rule.issue_expr = rule.get('issue_expr')
@@ -87,19 +92,26 @@ def save_external_rules(context):
     external_rules = []
 
     for rule in lint_collection.values():
-        new_rule = {
-            'description': rule.description,
-            'enabled': rule.enabled,
-            'severity_icon': rule.severity_icon,
-            'category_icon': rule.category_icon,
-            'issue_expr': rule.issue_expr,
-            'prop_label_expr': rule.prop_label_expr,
-        }
-        if rule.fix_expr:
-            new_rule['fix_expr'] = rule.fix_expr
-        if rule.iterable_expr:
-            new_rule['iterable_expr'] = rule.iterable_expr
-            new_rule['iterable_var'] = rule.iterable_var
+        if rule.rule_file:
+            new_rule = {
+                'description': rule.description,
+                'enabled': rule.enabled,
+                'rule_file': rule.rule_file,
+            }
+        else:
+            new_rule = {
+                'description': rule.description,
+                'enabled': rule.enabled,
+                'severity_icon': rule.severity_icon,
+                'category_icon': rule.category_icon,
+                'issue_expr': rule.issue_expr,
+                'prop_label_expr': rule.prop_label_expr,
+            }
+            if rule.fix_expr:
+                new_rule['fix_expr'] = rule.fix_expr
+            if rule.iterable_expr:
+                new_rule['iterable_expr'] = rule.iterable_expr
+                new_rule['iterable_var'] = rule.iterable_var
         external_rules.append(new_rule)
 
     with open(filepath, 'w') as f:

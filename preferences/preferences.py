@@ -157,6 +157,7 @@ def draw_rule_creation(layout, context, preferences):
                 new_issue.severity_icon = issue.get('severity_icon')
                 new_issue.category_icon = issue.get('category_icon')
                 new_issue.fix_expr = issue.get('fix_expr')
+                new_issue.rule_file = issue.get('rule_file', '')
             except ValueError as ex:
                 raise ValueError("Error with {}: {}".format(issue.get('description'), ex))
 
@@ -174,6 +175,11 @@ def draw_rule_creation(layout, context, preferences):
     layout.separator()
 
     layout.prop(form_rule, 'description')
+
+    layout.separator()
+    layout.prop(form_rule, 'rule_file', text='Python File')
+    layout.separator()
+
     layout.prop(form_rule, 'prop_label_expr', text='Issue identifier (optional)')
     layout.prop(form_rule, 'issue_expr', text='An issue exists if')
     layout.prop(form_rule, 'fix_expr', text='Issue fix (optional)')

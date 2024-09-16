@@ -37,6 +37,8 @@ class LintIssue(bpy.types.PropertyGroup):
     """Name of Blender icon to represent the category of the issue's rule (meshes, animation, etc.)."""
     fix_expr: bpy.props.StringProperty(name='Fix', default='')
     """String representation of Python code that will fix the issue."""
+    rule_file: bpy.props.StringProperty(name='Rule File', default='')
+    """Path to rule file containing fix."""
 
     def draw(self, layout):
         """Draws the issue in a panel."""
