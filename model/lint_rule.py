@@ -87,7 +87,8 @@ class LintRule(bpy.types.PropertyGroup):
         name='Rule File',
         description=('Python file with functions to find and fix issues.\n'
                      'If provided, only the rule description and enabled toggle will be used. The rest are ignored'),
-        default=''
+        default='',
+        subtype='FILE_PATH',
     )
 
     def check_for_errors(self) -> list[str]:
