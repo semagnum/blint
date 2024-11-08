@@ -19,10 +19,10 @@ from ..save_load import reload_rules, does_config_exist, save_external_rules
 
 
 class BT_OT_ReloadRules(bpy.types.Operator):
-    """Reloads linter rules from internal as well as external configuration."""
+    """Reloads rules from the selected config file."""
     bl_idname = 'blint.reload_rules'
     bl_label = 'Reload from Disk'
-    bl_description = 'Reloads linter rules from the configuration file'
+    bl_description = 'Reloads rules from the selected config file'
     bl_options = {'REGISTER', 'UNDO'}
 
     @classmethod
@@ -43,10 +43,10 @@ class BT_OT_ReloadRules(bpy.types.Operator):
 
 
 class BT_OT_SaveRules(bpy.types.Operator):
-    """Saves linter rules to configuration file."""
+    """Saves rules to the selected config file."""
     bl_idname = 'blint.save_rules'
     bl_label = 'Save to Disk'
-    bl_description = 'Saves linter rules to the configuration file'
+    bl_description = 'Saves rules to the selected config file'
     bl_options = {'REGISTER', 'UNDO'}
 
     def execute(self, context):
