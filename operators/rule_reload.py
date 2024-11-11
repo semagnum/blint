@@ -14,8 +14,9 @@
 
 
 import bpy
+import bpy_extras.io_utils
 
-from ..save_load import reload_rules, does_config_exist, save_external_rules
+from ..save_load import get_user_preferences, reload_rules, does_config_exist, save_external_rules
 
 
 class BT_OT_ReloadRules(bpy.types.Operator):
@@ -58,3 +59,29 @@ class BT_OT_SaveRules(bpy.types.Operator):
             self.report({'ERROR'}, 'Saving to config file failed: ' + str(e))
             return {'CANCELLED'}
 
+
+class BT_OT_SaveRulesAs(bpy.types.Operator, bpy_extras.io_utils.ExportHelper):
+    """Saves linter rules to a new configuration file."""
+    bl_idname = 'blint.save_rules_as'
+    bl_label = 'Save to Disk as...'
+    bl_description = 'Saves rules to a new config file, set as the current config'
+    bl_options = {'REGISTER', 'UNDO'}
+
+    filename_ext = '.json'
+
+    filter_glob: bpy.props.StringProperty(default="*.json", options={'HIDDEN'})
+
+    def execute(self, context):
+        try:
+            preferences = get_user_preferences(context)
+            save_external_rules(context, filepath=self.filepath)
+            self.report({'INFO'}, 'Successfully saved rules to disk')
+
+            # set as new default
+            preferences.config_type = 'EXTERNAL'
+            preferences.lint_filepath = self.filepath
+
+            return {'FINISHED'}
+        except Exception as e:
+            self.report({'ERROR'}, 'Saving to config file failed: ' + str(e))
+            return {'CANCELLED'}

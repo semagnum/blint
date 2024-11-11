@@ -30,6 +30,7 @@ from ..operators import (
     BT_OT_DebugFixIssue,
     BT_OT_ReloadRules,
     BT_OT_SaveRules,
+    BT_OT_SaveRulesAs,
     BT_OT_SelectIterator,
     BT_OT_RunOnFiles
 )
@@ -50,8 +51,10 @@ class BT_MT_config_menu(bpy.types.Menu):
 
     def draw(self, _context):
         layout = self.layout
-        layout.operator(BT_OT_ReloadRules.bl_idname, icon='FILE_REFRESH')
-        layout.operator(BT_OT_SaveRules.bl_idname, icon='FILE_TICK')
+        layout.operator(BT_OT_ReloadRules.bl_idname, text='Reload', icon='FILE_REFRESH')
+        layout.separator()
+        layout.operator(BT_OT_SaveRules.bl_idname, text='Save', icon='FILE_TICK')
+        layout.operator(BT_OT_SaveRulesAs.bl_idname, text='Save As...')
 
 
 class SA_Preferences(bpy.types.AddonPreferences):

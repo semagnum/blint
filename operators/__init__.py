@@ -12,7 +12,7 @@ from . import (
 )
 
 from .issue_fix import BT_OT_FixIssue, BT_OT_FixIssueAll, BT_OT_DebugFixIssue
-from .rule_reload import BT_OT_ReloadRules, BT_OT_SaveRules
+from .rule_reload import BT_OT_ReloadRules, BT_OT_SaveRules, BT_OT_SaveRulesAs
 from .select_icon import BT_OT_SelectIcon, BT_OT_IconSelection
 from .select_iterator import BT_OT_SelectIterator
 from .rule_create import BT_OT_CreateRule
@@ -30,6 +30,7 @@ _registration_order = [
     rule_delete.BT_OT_DeleteRule,
     rule_reload.BT_OT_ReloadRules,
     rule_reload.BT_OT_SaveRules,
+    rule_reload.BT_OT_SaveRulesAs,
     issue_fix.BT_OT_FixIssue,
     issue_fix.BT_OT_DebugFixIssue,
     issue_fix.BT_OT_FixIssueAll,

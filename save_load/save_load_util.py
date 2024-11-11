@@ -80,14 +80,15 @@ def import_lint_rules(lint_rules: list[dict], rule_properties: bpy.props.Collect
         new_rule.iterable_expr = rule.get('iterable_expr', '')
 
 
-def save_external_rules(context):
+def save_external_rules(context, filepath=None):
     """Saves rules to external JSON file.
 
     :param context: Blender's context
     """
     lint_collection = get_user_preferences(context).lint_rules
 
-    filepath = get_config_filepath(context)
+    if filepath is None:
+        filepath = get_config_filepath(context)
 
     external_rules = []
 
