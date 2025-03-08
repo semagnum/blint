@@ -81,6 +81,17 @@
             "fix_expr": "my_scene.cycles.denoising_use_gpu = True",
             "iterable_expr": "bpy.data.scenes",
             "iterable_var": "my_scene"
+        },
+        {
+            "description": "Use GPU compositing when available",
+            "enabled": true,
+            "severity_icon": "INFO",
+            "category_icon": "NODE_COMPOSITING",
+            "issue_expr": "my_scene.render.compositor_device != 'GPU'",
+            "prop_label_expr": "my_scene.name",
+            "fix_expr": "my_scene.render.compositor_device = 'GPU'",
+            "iterable_expr": "bpy.data.scenes",
+            "iterable_var": "my_scene"
         }
     ]
 }
