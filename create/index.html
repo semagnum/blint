@@ -1,0 +1,156 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="../_static/favicon.ico" rel="icon" type="image/x-icon">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rule Creation &mdash; BLint  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=187304be"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex/" />
+    <link rel="search" title="Search" href="../search/" />
+    <link rel="next" title="BLint operators" href="../operators/" />
+    <link rel="prev" title="Install" href="../use/" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../" class="icon icon-home">
+            BLint
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../use/">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../use/#okay-i-installed-blint-where-is-it">Okay, I installed BLint, where is it?</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Rule Creation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#context-menu">Context Menu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#preferences">Preferences</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rule-creation-tips">Rule Creation Tips</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../operators/">BLint operators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../panels/">UI Panels and Lists</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model/">Rules and Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../preferences/">Preferences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../save_load/">Save and Load Utility modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../offline/">BLint Offline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../blint/">blint root package files</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../">BLint</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Rule Creation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/create.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="rule-creation">
+<h1>Rule Creation<a class="headerlink" href="#rule-creation" title="Link to this heading"></a></h1>
+<p>Before you can create your own rules,
+you must create a config file to store them
+and reference said file in your add-on preferences.
+Create an empty “.json” file wherever you would like your rules stored.</p>
+<p>See LintRules in <a class="reference internal" href="../model/"><span class="doc">Rules and Issues</span></a> for more details on rule attributes and settings.</p>
+<section id="context-menu">
+<h2>Context Menu<a class="headerlink" href="#context-menu" title="Link to this heading"></a></h2>
+<img alt="../_images/context_menu.png" src="../_images/context_menu.png" />
+<p>You can right click on any property in Blender and select the “BLint Create Rule” option.
+From there, you can open the add-on preferences
+(see Blender Preferences &gt; Add-ons &gt; find “BLint”)
+and further edit and debug your new rule from there.</p>
+</section>
+<section id="preferences">
+<h2>Preferences<a class="headerlink" href="#preferences" title="Link to this heading"></a></h2>
+<img alt="../_images/preferences_window.png" src="../_images/preferences_window.png" />
+<p>You can edit rules from the preferences window.
+Just click the button dropdown “Edit Selected Rule” to view the rule values.</p>
+<p>Again, refer to LintRules in <a class="reference internal" href="../model/"><span class="doc">Rules and Issues</span></a> for more details on each field.</p>
+</section>
+<section id="rule-creation-tips">
+<h2>Rule Creation Tips<a class="headerlink" href="#rule-creation-tips" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Blender can help you find a property’s name! Hover over a given property, right click and select “Copy Data Path” or “Copy Full Data Path”. You can use this values in your form. Consider getting the path from Cycle’s preview samples property:
+- “Copy Full Data Path” results in <code class="docutils literal notranslate"><span class="pre">bpy.data.scenes[&quot;My</span> <span class="pre">Scene&quot;].cycles.preview_samples</span></code> - this is saying: go to my list of scenes, find the one named “My Scene”, and access its Cycles preview samples property.
+- “Copy Data Path” results in <code class="docutils literal notranslate"><span class="pre">cycles.preview_samples</span></code> - notice the lack of scene specification. While this does not say what these attributes belong to, it’s briefer and closer to what you need for a rule. Using the above data paths as an example, if your iterable expression is <code class="docutils literal notranslate"><span class="pre">bpy.data.scenes</span></code> and your variable name is <code class="docutils literal notranslate"><span class="pre">var_scene</span></code>, then the reference you can use in an issue expression or fix statement for any given scene is <code class="docutils literal notranslate"><span class="pre">var_scene.cycles.preview_samples</span></code>.</p></li>
+<li><p>Use the <a class="reference external" href="https://docs.blender.org/api/current/bpy.context.html">bpy.context</a> module to get data relative to the current user state (<code class="docutils literal notranslate"><span class="pre">bpy.context.scene</span></code> gets the currently visible scene, for example). For data that’s project-wide, use the <a class="reference external" href="https://docs.blender.org/api/current/bpy.data.html">bpy.data</a> module. For the icons, you can find a list of the Blender icons and their names from the built-in Blender addon, “Icon viewer.”</p></li>
+<li><p>If you want a fix to match a change you have made in a Blend file, you can open Blender’s “Info” editor window to see a list of actions you have done as a reference. It is even written like Python code!</p></li>
+<li><p>All the fields are checked for <code class="docutils literal notranslate"><span class="pre">exec()</span></code> or <code class="docutils literal notranslate"><span class="pre">eval()</span></code> to limit potential security vulnerabilities. However, these rules evaluate real Python code, so exercise caution when using others’ rule configs.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../use/" class="btn btn-neutral float-left" title="Install" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../operators/" class="btn btn-neutral float-right" title="BLint operators" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Spencer Magnusson.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
