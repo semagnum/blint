@@ -45,14 +45,14 @@ def print_issues(issue_iter: list['LintIssue'], issue_order: list[tuple]):
         log_info('{}:{}:{}'.format(issue.severity_icon, issue.category_icon, issue.description))
 
 
-def fix_issues(issue_iter):
+def fix_issues(blint, issue_iter):
     """Runs fixes on each issue that has a fix option.
 
     :param issue_iter: list of issues
     """
     orig_num_issues = len(issue_iter)
     bpy.ops.scene_analyzer.fix_issue_all()
-    reload_issues(context)
+    blint.save_load.reload_issues(context)
     curr_issues = window_manager.lint_issues
     curr_num_issues = len(curr_issues)
     num_fixed = orig_num_issues - curr_num_issues
@@ -66,18 +66,26 @@ if __name__ == '__main__':
 
     # get lint rules from preferences
     try:
-        from blint.model.lint_issue import get_sort_value
-        from blint.save_load import reload_issues
+        import blint
     except ImportError:
-        log_error('blint not found, the blint addon must be installed and enabled!')
-        sys.exit(1)
+        try:
+            # find blint as an extension
+
+            import sys
+            module_path = min([p for p in sys.modules.keys() if 'blint' in p], key=len, default=None)
+            if module_path is None:
+                raise ImportError
+            blint = sys.modules[module_path]
+        except ImportError:
+            log_error('blint not found, the blint addon must be installed and enabled!')
+            sys.exit(1)
 
     context = bpy.context
     window_manager = context.window_manager
 
     context.scene.render.engine = 'CYCLES'
 
-    reload_issues(context)
+    blint.save_load.reload_issues(context)
 
     # print blender file name
     try:
@@ -85,7 +93,10 @@ if __name__ == '__main__':
             log_info('No issues found')
         else:
             issues = window_manager.lint_issues
-            issue_sort_vals = [(idx, get_sort_value(issue), issue.description) for idx, issue in enumerate(issues)]
+            issue_sort_vals = [
+                (idx, blint.model.lint_issue.get_sort_value(issue), issue.description)
+                for idx, issue in enumerate(issues)
+            ]
             issue_sort_vals.sort(key=lambda x: (x[1], x[2]))
             print_issues(issues, issue_sort_vals)
 
@@ -93,8 +104,8 @@ if __name__ == '__main__':
             if num_fixable > 0:
                 if auto_fix:
                     log_info('Fixing {} of {} issues...'.format(num_fixable, len(issues)))
-                    fix_issues(issues)
-                    reload_issues(context)
+                    fix_issues(blint, issues)
+                    blint.save_load.reload_issues(context)
                 else:
                     log_info('{} of {} issues can be automatically fixed'.format(num_fixable, len(issues)))
 
