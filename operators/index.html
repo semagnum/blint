@@ -1,0 +1,169 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="../_static/favicon.ico" rel="icon" type="image/x-icon">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BLint operators &mdash; BLint  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=187304be"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex/" />
+    <link rel="search" title="Search" href="../search/" />
+    <link rel="next" title="UI Panels and Lists" href="../panels/" />
+    <link rel="prev" title="Rule Creation" href="../create/" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../" class="icon icon-home">
+            BLint
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../use/">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../use/#okay-i-installed-blint-where-is-it">Okay, I installed BLint, where is it?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../create/">Rule Creation</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">BLint operators</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#bt-ot-contextrule">BT_OT_ContextRule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#adding-a-new-rule">Adding a new Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#deleting-a-selected-rule">Deleting a Selected Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-blint.operators.issue_fix">Fixing an Issue</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#blint.operators.issue_fix.BT_OT_FixIssue"><code class="docutils literal notranslate"><span class="pre">BT_OT_FixIssue</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#blint.operators.issue_fix.BT_OT_DebugFixIssue"><code class="docutils literal notranslate"><span class="pre">BT_OT_DebugFixIssue</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#blint.operators.issue_fix.BT_OT_FixIssueAll"><code class="docutils literal notranslate"><span class="pre">BT_OT_FixIssueAll</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#reloading-from-and-saving-to-disk">Reloading From and Saving To Disk</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#icon-selection">Icon Selection</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../panels/">UI Panels and Lists</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model/">Rules and Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../preferences/">Preferences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../save_load/">Save and Load Utility modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../offline/">BLint Offline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../blint/">blint root package files</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../">BLint</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">BLint operators</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/operators.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="blint-operators">
+<h1>BLint operators<a class="headerlink" href="#blint-operators" title="Link to this heading"></a></h1>
+<section id="bt-ot-contextrule">
+<h2>BT_OT_ContextRule<a class="headerlink" href="#bt-ot-contextrule" title="Link to this heading"></a></h2>
+</section>
+<section id="adding-a-new-rule">
+<h2>Adding a new Rule<a class="headerlink" href="#adding-a-new-rule" title="Link to this heading"></a></h2>
+</section>
+<section id="deleting-a-selected-rule">
+<h2>Deleting a Selected Rule<a class="headerlink" href="#deleting-a-selected-rule" title="Link to this heading"></a></h2>
+</section>
+<section id="module-blint.operators.issue_fix">
+<span id="fixing-an-issue"></span><h2>Fixing an Issue<a class="headerlink" href="#module-blint.operators.issue_fix" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="blint.operators.issue_fix.BT_OT_FixIssue">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">blint.operators.issue_fix.</span></span><span class="sig-name descname"><span class="pre">BT_OT_FixIssue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#blint.operators.issue_fix.BT_OT_FixIssue" title="Link to this definition"></a></dt>
+<dd><p>Runs a given BLint fix on the scene.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="blint.operators.issue_fix.BT_OT_DebugFixIssue">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">blint.operators.issue_fix.</span></span><span class="sig-name descname"><span class="pre">BT_OT_DebugFixIssue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#blint.operators.issue_fix.BT_OT_DebugFixIssue" title="Link to this definition"></a></dt>
+<dd><p>Runs a given BLint fix on the scene.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="blint.operators.issue_fix.BT_OT_FixIssueAll">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">blint.operators.issue_fix.</span></span><span class="sig-name descname"><span class="pre">BT_OT_FixIssueAll</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#blint.operators.issue_fix.BT_OT_FixIssueAll" title="Link to this definition"></a></dt>
+<dd><p>Runs a given BLint fix on the scene.</p>
+</dd></dl>
+
+</section>
+<section id="reloading-from-and-saving-to-disk">
+<h2>Reloading From and Saving To Disk<a class="headerlink" href="#reloading-from-and-saving-to-disk" title="Link to this heading"></a></h2>
+</section>
+<section id="icon-selection">
+<h2>Icon Selection<a class="headerlink" href="#icon-selection" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../create/" class="btn btn-neutral float-left" title="Rule Creation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../panels/" class="btn btn-neutral float-right" title="UI Panels and Lists" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Spencer Magnusson.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
