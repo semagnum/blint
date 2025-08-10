@@ -1,0 +1,202 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="_static/favicon.ico" rel="icon" type="image/x-icon">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BLint Official Documentation &mdash; BLint  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=187304be"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex/" />
+    <link rel="search" title="Search" href="search/" />
+    <link rel="next" title="Install" href="use/" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            BLint
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="use/">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="use/#okay-i-installed-blint-where-is-it">Okay, I installed BLint, where is it?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create/">Rule Creation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="operators/">BLint operators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="panels/">UI Panels and Lists</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model/">Rules and Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="preferences/">Preferences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="save_load/">Save and Load Utility modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="offline/">BLint Offline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="blint/">blint root package files</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">BLint</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">BLint Official Documentation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="blint-official-documentation">
+<h1>BLint Official Documentation<a class="headerlink" href="#blint-official-documentation" title="Link to this heading"></a></h1>
+<img alt="_images/blint-logo.png" src="_images/blint-logo.png" />
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
+<p>In programming IDEs like Visual Studio Code or PyCharm,
+a linter is used to analyze code to highlight
+bad practices, naming conventions, or potentially bad code.</p>
+<p>BLint allows users to run a series of checks on the Blender project
+for the purpose of standardization and improving project file conventions.
+Automated checks provided by BLint can speed up workflow and
+automate continuous integration and quality checks before hitting ‘Render’
+or sending off to a render farm.
+Quality checks may include but are not limited to:</p>
+<ul class="simple">
+<li><p>Naming conventions</p></li>
+<li><p>checking render settings that may affect performance or expected results</p></li>
+<li><p>ensuring textures are all packed or located in a specific folder</p></li>
+</ul>
+<p>In some cases, an issue can be easily fixed.
+Each BLint rule has the option of implementing an automatic fix.
+External configurations can be used as well as rules that come built-in.</p>
+<p>This addon supports Blender 3.0 and above (it may be compatible on older versions
+but not guaranteed).</p>
+</section>
+<section id="contents">
+<h2>Contents<a class="headerlink" href="#contents" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="use/">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="use/#okay-i-installed-blint-where-is-it">Okay, I installed BLint, where is it?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create/">Rule Creation</a></li>
+</ul>
+</div>
+</section>
+<section id="python-docs">
+<h2>Python Docs<a class="headerlink" href="#python-docs" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="operators/">BLint operators</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="operators/#bt-ot-contextrule">BT_OT_ContextRule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operators/#adding-a-new-rule">Adding a new Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operators/#deleting-a-selected-rule">Deleting a Selected Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operators/#fixing-an-issue">Fixing an Issue</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operators/#reloading-from-and-saving-to-disk">Reloading From and Saving To Disk</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operators/#icon-selection">Icon Selection</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="panels/">UI Panels and Lists</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="panels/#issues-panel">Issues Panel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="panels/#issues-ui-list">Issues UI List</a></li>
+<li class="toctree-l2"><a class="reference internal" href="panels/#rules-ui-list">Rules UI List</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="model/">Rules and Issues</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="model/#rule">Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="model/#issue">Issue</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="preferences/">Preferences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="save_load/">Save and Load Utility modules</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="save_load/#module-blint.save_load.reload">reload</a></li>
+<li class="toctree-l2"><a class="reference internal" href="save_load/#module-blint.save_load.save_load_util">save_load_util</a></li>
+<li class="toctree-l2"><a class="reference internal" href="save_load/#security">security</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="offline/">BLint Offline</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="offline/#offline-blinter">offline_blinter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="offline/#blinter-file-checker">blinter_file_checker</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="blint/">blint root package files</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="blint/#icon-gen-utility-functions">icon_gen utility functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="blint/#pref-access">pref_access</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+</section>
+<section id="indices">
+<h1>Indices<a class="headerlink" href="#indices" title="Link to this heading"></a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex/"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="search/"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="use/" class="btn btn-neutral float-right" title="Install" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Spencer Magnusson.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
