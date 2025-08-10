@@ -3,7 +3,7 @@ schema_version = "1.0.0"
 # Example of manifest file for a Blender extension
 # Change the values according to your extension
 id = "blint"
-version = "1.4.3"
+version = "1.4.4"
 name = "BLint"
 tagline = "Project-level quality checks for Blender"
 maintainer = "Spencer Magnusson <semagnum+blenderextensions@gmail.com>"

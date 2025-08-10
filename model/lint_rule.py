@@ -89,6 +89,7 @@ class LintRule(bpy.types.PropertyGroup):
                      'If provided, only the rule description and enabled toggle will be used. The rest are ignored'),
         default='',
         subtype='FILE_PATH',
+        options={'PATH_SUPPORTS_BLEND_RELATIVE'} if bpy.app.version >= (4, 5, 0) else {}
     )
 
     def check_for_errors(self) -> list[str]:
