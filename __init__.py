@@ -58,7 +58,7 @@ bl_info = {
     'support': 'COMMUNITY',
     'category_icon': 'Scene',
     'doc_url': 'https://semagnum.github.io/blint/',
-    'tracker_url': 'https://github.com/semagnum/blint/issues',
+    'tracker_url': 'https://codeberg.org/semagnum/blint/issues',
 }
 
 properties = [
