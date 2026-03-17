@@ -163,9 +163,13 @@ class LintRule(bpy.types.PropertyGroup):
         label_expr = self.prop_label_expr
         try:
             if idx != -1:
-                locals()[self.iterable_var] = eval('{}[{}]'.format(self.get_list_str(), idx))
+                my_locals = {
+                    self.iterable_var: eval('{}[{}]'.format(self.get_list_str(), idx))
+                }
+            else:
+                my_locals = None
 
-            label_val = str(eval(label_expr)) + ': ' + self.description
+            label_val = str(eval(label_expr, {}, my_locals)) + ': ' + self.description
         except Exception as e:
             log.error('generate_iterative_label failed: ' + str(e))
             label_val = self.description
